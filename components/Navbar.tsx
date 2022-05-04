@@ -7,8 +7,11 @@ import {
   IconButton,
   useDisclosure,
   Stack,
+  Button,
+  Spacer,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { useSession, signIn, signOut } from "next-auth/react"
 
 const Links = ['Dashboard', 'Projects'];
 
@@ -26,6 +29,8 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 );
 
 export default function Navbar() {
+  
+  const { data: session } = useSession()
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -39,19 +44,24 @@ export default function Navbar() {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={'center'}>
-            <Box>🧗‍♂️</Box>
-            <HStack
-              as={'nav'}
-              spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
+          <Flex w="100%" justifyContent='space-between'>
+            <HStack spacing={8} alignItems={'center'}>
+              <Box>🧗‍♂️</Box>
+              <HStack
+                as={'nav'}
+                spacing={4}
+                display={{ base: 'none', md: 'flex' }}>
+                {Links.map((link) => (
+                  <NavLink key={link}>{link}</NavLink>
+                ))}
+              </HStack>
             </HStack>
-          </HStack>
+            {session
+              ? <Button onClick={() => signOut()}>Logout</Button>
+              : <Button onClick={() => signIn()} colorScheme='orange'>Login</Button>
+            }
+          </Flex>
         </Flex>
-
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
