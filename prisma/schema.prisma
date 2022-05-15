@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,25 +8,43 @@ datasource db {
 }
 
 model Location {
-  id String @id @default(cuid())
-  name String
-  type Type[] @relation(references: [id])
-  categories Category[] @relation(references: [id])
-  lat Float
-  lon Float
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
-  @@map(name: "locations")
+  id         String     @id @default(cuid())
+  name       String
+  lat        Float
+  lon        Float
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+  categories Category[]
+  type       Type[]
 }
 
 model Type {
-  id String @id @default(cuid())
-  name String
-  locations Location[] @relation(references: [id])
+  id        String     @id @default(cuid())
+  name      String
+  locations Location[]
 }
 
 model Category {
-  id    Int    @id @default(autoincrement())
-  name  String
-  locations Location[] @relation(references: [id])
+  id        Int        @id @default(autoincrement())
+  name      String
+  iconUrl   String
+  locations Location[]
+}
+
+model Post {
+  id        String  @id
+  title     String
+  content   String?
+  published Boolean @default(false)
+  authorId  String?
+  users     users?  @relation(fields: [authorId], references: [id])
+}
+
+model users {
+  id         String   @id
+  name       String?
+  email      String?  @unique
+  created_at DateTime @default(now())
+  updated_at DateTime
+  Post       Post[]
 }
