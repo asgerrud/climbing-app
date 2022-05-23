@@ -71,16 +71,15 @@ model Location {
 model Type {
   id         Int       @id @default(autoincrement())
   name       String
-  Location   Location? @relation(fields: [locationId], references: [id])
-  locationId String?
+  Location   Location[]
 }
 
 model Category {
   id         Int       @id @default(autoincrement())
   name       String
   iconUrl    String
-  Location   Location? @relation(fields: [locationId], references: [id])
-  locationId String?
+  Location   Location[]
+
 }
 
 model Note {
