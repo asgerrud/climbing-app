@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^1.8.8",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@next-auth/prisma-adapter": "^1.0.3",
     "@prisma/client": "^3.14.0",
     "dateformat": "^5.0.3",
     "framer-motion": "^6.3.3",

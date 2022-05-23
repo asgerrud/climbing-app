@@ -27,8 +27,6 @@ const Home = (props) => {
   
   const [darkMode, setDarkMode] = useState(true)
 
-  console.log(props.locations)
-
   const Map = useMemo(() => dynamic(() => import('../components/Map'), // replace '@components/map' with your component's location
     { 
       loading: () => <p>Loading...</p>,
