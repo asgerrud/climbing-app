@@ -9,18 +9,18 @@ datasource db {
 
 // NextAuth
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -43,7 +43,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  created_at    DateTime @default(now())
+  created_at    DateTime  @default(now())
   Note          Note[]
 }
 
@@ -54,6 +54,7 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
 // ---
 
 model Location {
@@ -68,24 +69,25 @@ model Location {
 }
 
 model Type {
-  id        String     @id @default(cuid())
-  name      String
-  locations Location[]
+  id         Int       @id @default(autoincrement())
+  name       String
+  Location   Location? @relation(fields: [locationId], references: [id])
+  locationId String?
 }
 
 model Category {
-  id        Int        @id @default(autoincrement())
-  name      String
-  iconUrl   String
-  locations Location[]
+  id         Int       @id @default(autoincrement())
+  name       String
+  iconUrl    String
+  Location   Location? @relation(fields: [locationId], references: [id])
+  locationId String?
 }
 
 model Note {
-  id        String  @id @default(cuid())
-  title     String
-  content   String?
+  id         String   @id @default(cuid())
+  title      String
+  content    String?
   created_at DateTime @default(now())
-  updated_at DateTime
-  authorId  String
-  user      User?  @relation(fields: [authorId], references: [id])
+  authorId   String
+  author     User?    @relation(fields: [authorId], references: [id])
 }
