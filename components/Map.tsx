@@ -1,9 +1,7 @@
-import { FC } from 'react';
-import * as ReactDOMServer from 'react-dom/server';
+import { FC } from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
-import L from 'leaflet';
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { Button, Center } from '@chakra-ui/react';
 
 type MapProps = {
   locations: any,
@@ -18,7 +16,7 @@ const Icon = (filename) => L.icon({
 
 const Map: FC<MapProps> = ({ locations, darkMode }) => {
 
-  const tileLayerLight = `https://api.mapbox.com/styles/v1/asger-rud/cl3621cy8000314mpq30pbmh2/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`;
+  const tileLayerLight = `https://api.mapbox.com/styles/v1/asger-rud/cl3621cy8000314mpq30pbmh2/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`
   const tileLayerDark = `https://api.mapbox.com/styles/v1/asger-rud/cl35zxnpz000y14lay3sj3htb/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`
 
   return (
@@ -29,8 +27,8 @@ const Map: FC<MapProps> = ({ locations, darkMode }) => {
           url={darkMode ? tileLayerDark : tileLayerLight}
         />
         {locations.map((location, index) => {
-          const { id, name, lat, lon, categories } = location;
-          const icon = Icon(categories[0].iconUrl);
+          const { id, name, lat, lon, categories } = location
+          const icon = Icon(categories[0].iconUrl)
           return (
             <Marker key={id} icon={icon} position={[lat, lon]}>
               <Popup>
@@ -44,4 +42,4 @@ const Map: FC<MapProps> = ({ locations, darkMode }) => {
   )
 }
 
-export default Map;
+export default Map

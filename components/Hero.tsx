@@ -1,4 +1,4 @@
-import { Box, Container, Heading, Stack, Button, HStack } from '@chakra-ui/react';
+import { Box, Container, Heading, Stack, Button, HStack } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
 export default function Hero() {

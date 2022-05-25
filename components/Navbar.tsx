@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from 'react'
 import {
   Box,
   Flex,
@@ -8,11 +8,11 @@ import {
   useDisclosure,
   Stack,
   Button,
-} from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+} from '@chakra-ui/react'
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { useSession, signIn, signOut } from 'next-auth/react'
 
-const Links = ['Dashboard', 'Projects'];
+const Links = ['Dashboard', 'Projects']
 
 const NavLink = ({ href, children }: { href?: string, children: ReactNode }) => (
   <Link
@@ -26,12 +26,12 @@ const NavLink = ({ href, children }: { href?: string, children: ReactNode }) => 
     href={href}>
     {children}
   </Link>
-);
+)
 
 export default function Navbar() {
   
   const { data: session } = useSession()
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
@@ -70,5 +70,5 @@ export default function Navbar() {
         ) : null}
       </Box>
     </>
-  );
+  )
 }

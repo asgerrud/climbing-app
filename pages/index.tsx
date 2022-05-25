@@ -1,9 +1,13 @@
 import { useMemo, useState } from 'react'
-import { GetStaticProps } from 'next';
+import { GetStaticProps } from 'next'
 import dynamic from 'next/dynamic'
 import Hero from '../components/Hero'
 import { Button, Center } from '@chakra-ui/react'
 import prisma from '../lib/prisma'
+
+type HomeProps = {
+  locations: Location[]
+}
 
 export const getStaticProps: GetStaticProps = async () => {
   const locations = await prisma.location.findMany({
@@ -15,15 +19,15 @@ export const getStaticProps: GetStaticProps = async () => {
         }
       }
     }
-  });
+  })
   return { 
     props: { 
       locations: JSON.parse(JSON.stringify(locations))  
     }
   }
-};
+}
 
-const Home = (props) => {
+const Home: React.FC<HomeProps> = ({ locations }) => {
   
   const [darkMode, setDarkMode] = useState(true)
 
@@ -36,7 +40,7 @@ const Home = (props) => {
 
   return (
     <div>
-      <Map darkMode={darkMode} locations={props.locations}/>
+      <Map darkMode={darkMode} locations={locations}/>
       <Center p={4} mx="auto">
         <Button onClick={() => setDarkMode(!darkMode)}>
           <span>{darkMode ? '😏' : '😭'}</span>
@@ -47,4 +51,4 @@ const Home = (props) => {
   )
 }
 
-export default Home;
+export default Home
