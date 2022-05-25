@@ -87,6 +87,7 @@ model Note {
   title      String
   content    String?
   created_at DateTime @default(now())
+  updated_at DateTime @default(now())
   authorId   String
   author     User?    @relation(fields: [authorId], references: [id])
 }
