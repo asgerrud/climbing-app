@@ -23,7 +23,7 @@ const Map: FC<MapProps> = ({ locations, darkMode }) => {
 
   return (
     <>
-      <MapContainer center={[55.662622, 12.568025]} zoom={12} style={{height: "85vh", width: "100%"}}>
+      <MapContainer center={[55.662622, 12.568025]} zoom={12} style={{ height: '85vh', width: '100%' }}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={darkMode ? tileLayerDark : tileLayerLight}

@@ -10,7 +10,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 const Links = ['Dashboard', 'Projects'];
 

@@ -1,3 +1,8 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+		"no-unused-vars": "warn",
+    "quotes": ["error", "single"],
+		"object-curly-spacing": ["error", "always"]
+	}
 }
