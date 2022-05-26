@@ -51,7 +51,7 @@ export default function Navbar() {
             {session
               ? (
                 <HStack>
-                  <NavLink href="profile">Profile</NavLink>
+                  <NavLink href="/profile">Profile</NavLink>
                   <Button onClick={() => signOut()}>Logout</Button>
                 </HStack>
               )
