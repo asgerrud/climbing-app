@@ -7,6 +7,11 @@ import Router from 'next/router'
 import { CalendarIcon } from '@chakra-ui/icons'
 import prisma from '../lib/prisma'
 import NoteGrid from '../components/profile/NoteGrid'
+import { Note } from '@prisma/client'
+
+type ProfileProps = {
+  notes: Note[]
+}
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getSession({ req })
@@ -31,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   }
 }
 
-const Profile: React.FC = (props) => {
+const Profile: React.FC<ProfileProps> = (props) => {
 
   const [noteEditMode, setNoteEditMode] = useState(false)
   const [noteTitle, setNoteTitle] = useState('')
@@ -40,7 +45,7 @@ const Profile: React.FC = (props) => {
   const { data: session } = useSession()
 
   const getCurrentDateAndTime = () => {
-    const currentDateAndTime = dateFormat(new Date(), 'dddd hh:mm')
+    const currentDateAndTime = dateFormat(new Date(), 'dddd HH:MM')
     setNoteTitle(currentDateAndTime)
   }
 
