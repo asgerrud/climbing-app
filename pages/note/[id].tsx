@@ -5,6 +5,8 @@ import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
 import Router from 'next/router'
 import React, { useState } from 'react'
+import Card from '../../components/generic/card/Card'
+import Loading from '../../components/generic/loading/Loading'
 import prisma from '../../lib/prisma'
 
 type NotePageProps = {
@@ -73,7 +75,7 @@ const NotePage: React.FC<NotePageProps> = (props) => {
   }
 
   if (status === 'loading') {
-    return <div>Authenticating ...</div>
+    return <Loading />
   }
 
   if (!userHasValidSession || !noteBelongsToUser ) {
