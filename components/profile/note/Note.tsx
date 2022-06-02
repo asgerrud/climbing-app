@@ -22,7 +22,7 @@ const Note: React.FC<NoteProps> = ({ note }) => {
 
   const { id, title, created_at } = note
   
-  const date = dateFormat(created_at, 'mmmm d, yyyy hh:mm')
+  const date = dateFormat(created_at, 'dd/mm/yyyy HH:MM')
 
   const handleRemove = () => { deleteNote(id) }
 
