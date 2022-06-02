@@ -1,4 +1,5 @@
-import { Box, Button, ButtonGroup, Container, Divider, Flex, Input, Text, Textarea } from '@chakra-ui/react'
+import { ArrowBackIcon } from '@chakra-ui/icons'
+import { Box, Button, ButtonGroup, Container, Divider, Flex, Input, Link, Text, Textarea } from '@chakra-ui/react'
 import { Note } from '@prisma/client'
 import dateFormat from 'dateformat'
 import { GetServerSideProps } from 'next'
@@ -24,13 +25,24 @@ async function deleteNote(id: string): Promise<void> {
   Router.push('/profile')
 }
 
-async function updateNote(id: string, title: string, content: string, createdAt: Date ): Promise<void> {
-  await fetch(`/api/note/${id}&${title}&${content}&${createdAt}`, {
+async function updateNote(id: string, title: string, content: string, updatedAt: Date ): Promise<void> {
+  const updatedDate = updatedAt.toJSON()
+  await fetch(`/api/note/${id}`, {
     method: 'PUT',
+    body: JSON.stringify({ 
+      title, 
+      content, 
+      updatedAt: updatedDate 
+    })
   })
-  await Router.push('/')
+  .then(() => {
+    Router.reload()
+  })
+  .catch(error => {
+    console.log('error:', error)
+  })
+  
 }
-
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const note = await prisma.note.findUnique({
@@ -71,6 +83,7 @@ const NotePage: React.FC<NotePageProps> = (props) => {
 
   const handleSave = () => {
     const updatedDate = new Date()
+    console.log(id, title, content, updatedDate)
     updateNote(id, title, content, updatedDate)
   }
 
@@ -89,6 +102,10 @@ const NotePage: React.FC<NotePageProps> = (props) => {
   return (
     <Container>
       <Card>
+        <Link href="/profile" display="inline-flex" alignItems="center" color="gray.400" _hover={{ textDecoration: 'none' }}>
+          <ArrowBackIcon mr={1}/>
+          Back
+        </Link>
         <Input 
           value={title} 
           fontSize='3xl' 
@@ -101,7 +118,7 @@ const NotePage: React.FC<NotePageProps> = (props) => {
           <Text fontSize='md'>{createdAtDate}</Text>
           {createdAtDate != updatedAtDate &&
             <Text fontSize='xs'>
-              Updated {createdAtDate}
+              Updated {updatedAtDate}
             </Text>
           }
         </Flex>
