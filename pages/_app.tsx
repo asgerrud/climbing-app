@@ -1,9 +1,10 @@
+import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
 import { ChakraProvider, Box } from '@chakra-ui/react'
 import Head from 'next/head'
-import Navbar from '../components/Navbar.tsx'
+import Navbar from '../components/Navbar'
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+const App: React.FC<AppProps> = ({ Component, pageProps: { session, ...pageProps } }) => {
   return (
     <SessionProvider session={session}>
       <ChakraProvider>
@@ -20,4 +21,4 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   )
 }
 
-export default MyApp
+export default App
