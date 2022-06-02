@@ -4,7 +4,7 @@ import dateFormat from 'dateformat'
 import Router from 'next/router'
 import React, { useState } from 'react'
 
-export type NoteEditorProps = {}
+type NoteEditorProps = {}
 
 const NoteEditor: React.FC<NoteEditorProps> = () => {
   
