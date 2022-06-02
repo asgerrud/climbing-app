@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
-import { Box, Button, ButtonGroup, Container, Divider, Heading, Input, InputGroup, InputRightElement, Stack, Textarea } from '@chakra-ui/react'
+import React from 'react'
+import { Box, Container, Divider, Flex, Heading } from '@chakra-ui/react'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
-import dateFormat from 'dateformat'
-import Router from 'next/router'
-import { CalendarIcon } from '@chakra-ui/icons'
 import prisma from '../lib/prisma'
 import NoteGrid from '../components/profile/note-grid/NoteGrid'
 import { Note } from '@prisma/client'
 import GradeTable from '../components/profile/grade-table/GradeTable'
 import Card from '../components/generic/card/Card'
+import NoteEditor from '../components/profile/note-editor/NoteEditor';
+import { WarningIcon } from '@chakra-ui/icons';
 
 type ProfileProps = {
   notes: Note[]
@@ -40,68 +39,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
 const Profile: React.FC<ProfileProps> = (props) => {
 
-  const [noteEditMode, setNoteEditMode] = useState(false)
-  const [noteTitle, setNoteTitle] = useState('')
-  const [noteContent, setNoteContent] = useState('')
-  
   const { data: session } = useSession()
-
-  const getCurrentDateAndTime = () => {
-    const currentDateAndTime = dateFormat(new Date(), 'dddd HH:MM')
-    setNoteTitle(currentDateAndTime)
-  }
-
-  const submitData = async (e: React.SyntheticEvent) => {
-    e.preventDefault()
-    try {
-      const body = { title: noteTitle, content: noteContent }
-      await fetch('/api/note', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
-      setNoteTitle('')
-      setNoteContent('')
-      await Router.push('/profile')
-    } catch (error) {
-    
-    };
-  }
-
-  const renderNoteUI = () => {
-    if (noteEditMode) {
-      return (
-        <Stack spacing={3}>
-          <InputGroup>
-            <Input autoFocus placeholder='Title' value={noteTitle} onChange={e => setNoteTitle(e.target.value)}/>
-            <InputRightElement>
-              <Button borderRadius={0} colorScheme='orange' onClick={getCurrentDateAndTime}>
-                <CalendarIcon />
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-          <Textarea placeholder='Type something...' value={noteContent} onChange={e => setNoteContent(e.target.value)}/>
-          <ButtonGroup>
-            <Button  type="submit" colorScheme='orange' variant='solid' disabled={!noteContent || !noteTitle}>
-              Button
-            </Button>
-            <Button colorScheme='orange' variant='outline' onClick={() => setNoteEditMode(false)}>
-              Cancel
-            </Button>
-          </ButtonGroup>
-        </Stack>
-      )
-    } else {
-      return <Button onClick={() => setNoteEditMode(true)}>Write note ✍</Button>
-    }
-  }
 
   if (!session) {
     return (
       <Container>
         <Heading size="lg" mb={3}>Profile</Heading>
         <Card>
-          <p>You need to be authenticated to view this page</p>
+          <Box display="flex" justifyContent="center">
+            <Flex alignItems="center" color="red.400">
+              <WarningIcon mr={2}/> <p>You need to be authenticated to view this page</p>
+            </Flex>
+          </Box>
         </Card>
       </Container>
     )
@@ -113,9 +62,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
       <GradeTable />
       <Box bg="white" p={4} borderRadius={5}>
         <Heading as="h2" size="md" mb={4}>Notes</Heading>
-        <form onSubmit={submitData}>
-          {renderNoteUI()}
-        </form>
+        <NoteEditor />
         <Divider mt={4} />
         <NoteGrid notes={props.notes}/>
       </Box>
