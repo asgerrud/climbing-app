@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { GetStaticProps } from 'next'
 import dynamic from 'next/dynamic'
 import Hero from '../components/Hero'
-import { Button, Center } from '@chakra-ui/react'
+import { Box, Button, Center } from '@chakra-ui/react'
 import prisma from '../lib/prisma'
 
 type HomeProps = {
@@ -39,7 +39,7 @@ const Home: React.FC<HomeProps> = ({ locations }) => {
   ), [darkMode])
 
   return (
-    <div>
+    <Box>
       <Map darkMode={darkMode} locations={locations}/>
       <Center p={4} mx="auto">
         <Button onClick={() => setDarkMode(!darkMode)}>
@@ -47,7 +47,7 @@ const Home: React.FC<HomeProps> = ({ locations }) => {
         </Button>
       </Center>
       <Hero />
-    </div>
+    </Box>
   )
 }
 

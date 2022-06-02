@@ -1,7 +1,7 @@
 import React from 'react'
 import { VStack } from '@chakra-ui/react'
 import { Note as NoteType } from '@prisma/client'
-import Note from './Note'
+import Note from '../note/Note'
 
 type NoteGridProps = {
   notes: NoteType[]

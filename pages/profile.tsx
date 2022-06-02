@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Box, Button, ButtonGroup, Container, Divider, Heading, Input, InputGroup, InputRightElement, Stack, Table, TableContainer, Tbody, Td, Textarea, Th, Thead, Tr } from '@chakra-ui/react'
+import { Box, Button, ButtonGroup, Container, Divider, Heading, Input, InputGroup, InputRightElement, Stack, Textarea } from '@chakra-ui/react'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
 import dateFormat from 'dateformat'
 import Router from 'next/router'
 import { CalendarIcon } from '@chakra-ui/icons'
 import prisma from '../lib/prisma'
-import NoteGrid from '../components/profile/NoteGrid'
+import NoteGrid from '../components/profile/note-grid/NoteGrid'
 import { Note } from '@prisma/client'
+import GradeTable from '../components/profile/grade-table/GradeTable'
 
 type ProfileProps = {
   notes: Note[]
@@ -108,49 +109,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
   return (
     <Container>
       <Heading size="lg" mb={3}>Profile</Heading>
-      <Box bg="white" p={4} borderRadius={5} mb={5}>
-        <Heading as="h2" size="md" mb={4}>Stats</Heading>
-          <TableContainer>
-            <Table variant='simple'  size='sm'>
-              <Thead>
-                <Tr>
-                  <Th>Grade</Th>
-                  <Th>Completed</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>V1</Td>
-                  <Td>20</Td>
-                </Tr>
-                <Tr>
-                  <Td>V2</Td>
-                  <Td>15</Td>
-                </Tr>
-                <Tr>
-                  <Td>V3</Td>
-                  <Td>4</Td>
-                </Tr>
-                <Tr>
-                  <Td>V4</Td>
-                  <Td>1</Td>
-                </Tr>
-                <Tr>
-                  <Td>V5</Td>
-                  <Td>0</Td>
-                </Tr>
-                <Tr>
-                  <Td>V6</Td>
-                  <Td>0</Td>
-                </Tr>
-                <Tr>
-                  <Td>V7</Td>
-                  <Td>0</Td>
-                </Tr>
-              </Tbody>
-            </Table>
-        </TableContainer>
-      </Box>
+      <GradeTable />
       <Box bg="white" p={4} borderRadius={5}>
         <Heading as="h2" size="md" mb={4}>Notes</Heading>
         <form onSubmit={submitData}>
