@@ -88,7 +88,7 @@ const NotePage: React.FC<NotePageProps> = (props) => {
 
   return (
     <Container>
-      <Box bgColor='white' my={8} p={4} borderRadius={5}>
+      <Card>
         <Input 
           value={title} 
           fontSize='3xl' 
@@ -117,7 +117,7 @@ const NotePage: React.FC<NotePageProps> = (props) => {
             <Button size="sm" variant="outline" onClick={handleRemove}>Remove</Button>
           </ButtonGroup>
         </Flex>
-      </Box>
+      </Card>
     </Container>
   )
 }

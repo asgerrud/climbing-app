@@ -9,6 +9,7 @@ import prisma from '../lib/prisma'
 import NoteGrid from '../components/profile/note-grid/NoteGrid'
 import { Note } from '@prisma/client'
 import GradeTable from '../components/profile/grade-table/GradeTable'
+import Card from '../components/generic/card/Card'
 
 type ProfileProps = {
   notes: Note[]
@@ -99,9 +100,9 @@ const Profile: React.FC<ProfileProps> = (props) => {
     return (
       <Container>
         <Heading size="lg" mb={3}>Profile</Heading>
-        <Box bg="white" p={4} borderRadius={5} mb={5}>
+        <Card>
           <p>You need to be authenticated to view this page</p>
-        </Box>
+        </Card>
       </Container>
     )
   }
