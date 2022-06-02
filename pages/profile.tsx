@@ -7,8 +7,9 @@ import NoteGrid from '../components/profile/note-grid/NoteGrid'
 import { Note } from '@prisma/client'
 import GradeTable from '../components/profile/grade-table/GradeTable'
 import Card from '../components/generic/card/Card'
-import NoteEditor from '../components/profile/note-editor/NoteEditor';
-import { WarningIcon } from '@chakra-ui/icons';
+import NoteEditor from '../components/profile/note-editor/NoteEditor'
+import { WarningIcon } from '@chakra-ui/icons'
+import Loading from '../components/generic/loading/Loading';
 
 type ProfileProps = {
   notes: Note[]
@@ -39,7 +40,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
 const Profile: React.FC<ProfileProps> = (props) => {
 
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
+
+  if (status === 'loading') {
+    return <Loading />
+  }
 
   if (!session) {
     return (
