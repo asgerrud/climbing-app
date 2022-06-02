@@ -1,15 +1,16 @@
 import React from 'react'
-import { Box, Container, Divider, Flex, Heading } from '@chakra-ui/react'
+import prisma from '../lib/prisma'
+import { Note } from '@prisma/client'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
-import prisma from '../lib/prisma'
+
+import { Box, Container, Divider, Flex, Text, Heading, SimpleGrid } from '@chakra-ui/react'
+import { WarningIcon } from '@chakra-ui/icons'
 import NoteGrid from '../components/profile/note-grid/NoteGrid'
-import { Note } from '@prisma/client'
 import GradeTable from '../components/profile/grade-table/GradeTable'
 import Card from '../components/generic/card/Card'
 import NoteEditor from '../components/profile/note-editor/NoteEditor'
-import { WarningIcon } from '@chakra-ui/icons'
-import Loading from '../components/generic/loading/Loading';
+import Loading from '../components/generic/loading/Loading'
 
 type ProfileProps = {
   notes: Note[]
@@ -62,15 +63,26 @@ const Profile: React.FC<ProfileProps> = (props) => {
   }
 
   return (
-    <Container>
-      <Heading size="lg" mb={3}>Profile</Heading>
-      <GradeTable />
-      <Box bg="white" p={4} borderRadius={5}>
-        <Heading as="h2" size="md" mb={4}>Notes</Heading>
-        <NoteEditor />
-        <Divider mt={4} />
-        <NoteGrid notes={props.notes}/>
-      </Box>
+    <Container maxW="120ch">
+      <Heading as="h1" size="lg" mb={3}>Profile</Heading>
+      <SimpleGrid columns={{base: 1, md: 2}} spacing={8}>
+        <Box>
+          <Card>
+            <GradeTable />
+          </Card>
+          <Box bg="white" p={4} mt={8} borderRadius={5}>
+            <Heading as="h2" size="md" mb={4}>Notes</Heading>
+            <NoteEditor />
+            <Divider mt={4} />
+            <NoteGrid notes={props.notes}/>
+          </Box>
+        </Box>
+        <Card>
+          <Heading size="md">Progress</Heading>
+          <Text>(Climbing Streak)</Text>
+          <Text>(Graph over hangboard etc)</Text>
+        </Card>
+      </SimpleGrid>
     </Container>
   )
 }

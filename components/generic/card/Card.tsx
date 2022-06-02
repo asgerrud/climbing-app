@@ -5,7 +5,7 @@ type CardProps = { children: ReactNode }
 
 const Card: React.FC<CardProps> = ({ children }) => {
   return (
-    <Box bgColor='white' my={8} p={4} borderRadius={5}>
+    <Box bgColor='white' p={4} borderRadius={5}>
       {children}
     </Box>
   )

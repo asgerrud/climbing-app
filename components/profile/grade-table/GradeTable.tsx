@@ -3,8 +3,8 @@ import React from 'react'
 
 const GradeTable = () => {
   return (
-    <Box bg="white" p={4} borderRadius={5} mb={5}>
-    <Heading as="h2" size="md" mb={4}>Stats</Heading>
+    <>
+      <Heading as="h2" size="md" mb={4}>Stats</Heading>
       <TableContainer>
         <Table variant='simple'  size='sm'>
           <Thead>
@@ -44,8 +44,8 @@ const GradeTable = () => {
             </Tr>
           </Tbody>
         </Table>
-    </TableContainer>
-  </Box>
+      </TableContainer>
+    </>
   )
 }
 
