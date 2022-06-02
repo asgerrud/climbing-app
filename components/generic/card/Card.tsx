@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
 
-export type CardProps = { children: ReactNode }
+type CardProps = { children: ReactNode }
 
 const Card: React.FC<CardProps> = ({ children }) => {
   return (
