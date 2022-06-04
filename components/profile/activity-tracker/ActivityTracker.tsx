@@ -5,11 +5,14 @@ import dateFormat from 'dateformat'
 import { useState } from 'react'
 import GradeNumberStepper from '../grade-number-stepper/GradeNumberStepper'
 import { Location as cLocation } from '@prisma/client'
-import { getDistanceBetween } from '../../../utils/geo';
+import { getDistanceBetween } from '../../../utils/geo'
 
 type ActivityTrackerProps = {
   locations: cLocation[]
 }
+
+// TEMPORARY SOLUTION
+const grades = ['green','yellow','orange','blue','purple','red','black','pink']  
 
 const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
 
@@ -60,7 +63,6 @@ const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
                   </Select>
                   <Button px={8} onClick={findNearest}>Find location</Button>
                 </HStack>
-
                 <InputGroup>
                   <InputLeftElement pointerEvents='none'>
                     <CalendarIcon color='gray.300' />
@@ -71,16 +73,13 @@ const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
                     onChange={e => setDate(e.target.value)}
                   />
                 </InputGroup>
-
                 <Stack spacing={4}>
-                  <GradeNumberStepper color="green.500" />
-                  <GradeNumberStepper color="yellow.500" />
-                  <GradeNumberStepper color="orange.500" />
-                  <GradeNumberStepper color="blue.500" />
-                  <GradeNumberStepper color="purple.500" />
-                  <GradeNumberStepper color="red.500" />
-                  <GradeNumberStepper color="black" />
-                  <GradeNumberStepper color="pink.500" />
+                  {grades.map(grade => {
+                    const color = grade === 'black' ? 'black' : `${grade}.500`
+                    return (
+                      <GradeNumberStepper key={grade} color={color} />
+                    )
+                  })}
                 </Stack>
               </Stack>
             </form>
