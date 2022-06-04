@@ -1,6 +1,6 @@
 import React from 'react'
-import prisma from '../lib/prisma'
-import { Note } from '@prisma/client'
+import prisma from '../utils/prisma'
+import { Note, Location as cLocation } from '@prisma/client'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
 
@@ -13,9 +13,9 @@ import NoteEditor from '../components/profile/note-editor/NoteEditor'
 import Loading from '../components/generic/loading/Loading'
 import ActivityTracker from '../components/profile/activity-tracker/ActivityTracker';
 
-type ProfileProps =
- {
-  notes: Note[]
+type ProfileProps = {
+  notes: Note[],
+  locations: cLocation[]
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
@@ -36,8 +36,20 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       updated_at: true
     }
   })
+
+  const locations = await prisma.location.findMany({
+    select: {
+      name: true,
+      lat: true,
+      lon: true
+    }
+  })
+
   return {
-    props: { notes: JSON.parse(JSON.stringify(notes)) },
+    props: { 
+      notes: JSON.parse(JSON.stringify(notes)),
+      locations: JSON.parse(JSON.stringify(locations))
+    },
   }
 }
 
@@ -80,11 +92,10 @@ const Profile: React.FC<ProfileProps> = (props) => {
           </Box>
         </Box>
         <Card>
-          <Heading size="md">Progress</Heading>
+          <Heading size="md" mb={4}>Progress</Heading>
           <Text>🔥 54</Text>
-          <Text>(Graph over hangboard etc)</Text>
           <Divider my={4} />
-          <ActivityTracker />
+          <ActivityTracker locations={props.locations} />
         </Card>
       </SimpleGrid>
     </Container>

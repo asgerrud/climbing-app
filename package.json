@@ -18,6 +18,7 @@
     "@prisma/client": "^3.14.0",
     "dateformat": "^5.0.3",
     "framer-motion": "^6.3.3",
+    "geodist": "^0.2.1",
     "leaflet": "^1.8.0",
     "mapbox-gl": "^2.8.2",
     "next": "12.1.5",
@@ -34,7 +35,7 @@
     "eslint": "8.14.0",
     "eslint-config-next": "12.1.5",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "typescript": "^4.6.4",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "typescript": "^4.6.4"
   }
 }

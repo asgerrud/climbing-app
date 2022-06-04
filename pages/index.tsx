@@ -3,10 +3,11 @@ import { GetStaticProps } from 'next'
 import dynamic from 'next/dynamic'
 import Hero from '../components/Hero'
 import { Box, Button, Center } from '@chakra-ui/react'
-import prisma from '../lib/prisma'
+import prisma from '../utils/prisma'
+import { Location as cLocation } from '@prisma/client'
 
 type HomeProps = {
-  locations: Location[]
+  locations: cLocation[]
 }
 
 export const getStaticProps: GetStaticProps = async () => {

@@ -1,16 +1,40 @@
 
-import { ChevronDownIcon } from '@chakra-ui/icons'
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, useDisclosure } from '@chakra-ui/react'
+import { CalendarIcon, ChevronDownIcon } from '@chakra-ui/icons'
+import { Button, HStack, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, useDisclosure } from '@chakra-ui/react'
+import dateFormat from 'dateformat'
 import { useState } from 'react'
 import GradeNumberStepper from '../grade-number-stepper/GradeNumberStepper'
+import { Location as cLocation } from '@prisma/client'
+import { getDistanceBetween } from '../../../utils/geo';
 
-type ActivityTrackerProps = {}
+type ActivityTrackerProps = {
+  locations: cLocation[]
+}
 
-const ActivityTracker: React.FC<ActivityTrackerProps> = () => {
+const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
+
+  const today = dateFormat(new Date(), 'yyyy-mm-dd')
 
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [location, setLocation] = useState('')
+  const [date, setDate] = useState(today)
 
-  const [location, setLocation] = useState('Boulders Sydhavn')
+  const findNearest = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords
+        const curCoords = { lat: latitude, lon: longitude }
+        const nearestLocation = locations.reduce((a: cLocation, b: cLocation) => {
+          const distA = getDistanceBetween(curCoords, { lat: a.lat, lon: a.lon})
+          const distB = getDistanceBetween(curCoords, { lat: b.lat, lon: b.lon})
+          return distA < distB ? a : b
+        })
+        setLocation(nearestLocation.name)
+      })
+    } else {
+      // error handling
+    }
+  }
 
   return (
     <>
@@ -23,28 +47,51 @@ const ActivityTracker: React.FC<ActivityTrackerProps> = () => {
           <ModalCloseButton />
           <ModalBody>
             <form>
-              {/* TODO: fetch dynamically */}
-              <Select icon={<ChevronDownIcon />} mb={4} placeholder='Select gym' defaultValue="Boulders Sydhavn" required>
-                <option value='Boulders Sydhavn'>Boulders Sydhavn</option>
-              </Select>
-
               <Stack spacing={4}>
-                <GradeNumberStepper color="green.500" />
-                <GradeNumberStepper color="yellow.500" />
-                <GradeNumberStepper color="orange.500" />
-                <GradeNumberStepper color="blue.500" />
-                <GradeNumberStepper color="purple.500" />
-                <GradeNumberStepper color="red.500" />
-                <GradeNumberStepper color="black" />
-                <GradeNumberStepper color="pink.500" />
+                {/* TODO: fetch dynamically */}
+                <HStack>
+                  <Select icon={<ChevronDownIcon />} placeholder='Select gym' value={location} required>
+                    {locations.sort().map(location => {
+                      const name = location.name
+                      return (
+                        <option key={location.id} value={name}>{name}</option>
+                      )
+                    })}
+                  </Select>
+                  <Button px={8} onClick={findNearest}>Find location</Button>
+                </HStack>
+
+                <InputGroup>
+                  <InputLeftElement pointerEvents='none'>
+                    <CalendarIcon color='gray.300' />
+                  </InputLeftElement>
+                  <Input 
+                    type='date' 
+                    value={date} 
+                    onChange={e => setDate(e.target.value)}
+                  />
+                </InputGroup>
+
+                <Stack spacing={4}>
+                  <GradeNumberStepper color="green.500" />
+                  <GradeNumberStepper color="yellow.500" />
+                  <GradeNumberStepper color="orange.500" />
+                  <GradeNumberStepper color="blue.500" />
+                  <GradeNumberStepper color="purple.500" />
+                  <GradeNumberStepper color="red.500" />
+                  <GradeNumberStepper color="black" />
+                  <GradeNumberStepper color="pink.500" />
+                </Stack>
               </Stack>
             </form>
           </ModalBody>
           <ModalFooter>
-            <Button variant='ghost' onClick={onClose}>Cancel</Button>
-            <Button colorScheme='orange' mr={3}>
-              Save
-            </Button>
+            <Stack direction='row' spacing={2} align='center'>
+              <Button variant='ghost' onClick={onClose}>Cancel</Button>
+              <Button colorScheme='orange'>
+                Save
+              </Button>
+            </Stack>
           </ModalFooter>
         </ModalContent>
       </Modal>
