@@ -45,6 +45,7 @@ model User {
   sessions      Session[]
   created_at    DateTime  @default(now())
   Note          Note[]
+  Activity      Activity?
 }
 
 model VerificationToken {
@@ -66,20 +67,20 @@ model Location {
   updatedAt  DateTime   @updatedAt @map("updated_at")
   categories Category[]
   type       Type[]
+  Activity   Activity?
 }
 
 model Type {
-  id         Int       @id @default(autoincrement())
-  name       String
-  Location   Location[]
+  id       Int        @id @default(autoincrement())
+  name     String
+  Location Location[]
 }
 
 model Category {
-  id         Int       @id @default(autoincrement())
-  name       String
-  iconUrl    String
-  Location   Location[]
-
+  id       Int        @id @default(autoincrement())
+  name     String
+  iconUrl  String
+  Location Location[]
 }
 
 model Note {
@@ -90,4 +91,32 @@ model Note {
   updated_at DateTime @default(now())
   authorId   String
   author     User?    @relation(fields: [authorId], references: [id])
+}
+
+model Grade {
+  id              String          @id @default(cuid())
+  name            String
+  gradesCompleted GradeCompleted?
+}
+
+model GradeCompleted {
+  grade      Grade    @relation(fields: [gradeId], references: [id])
+  gradeId    String
+  activity   Activity @relation(fields: [activityId], references: [id])
+  activityId String
+  amount     Int
+
+  @@unique([activityId, gradeId])
+}
+
+model Activity {
+  id              String           @id @default(cuid())
+  User            User             @relation(fields: [userId], references: [id])
+  userId          String           @unique
+  Location        Location         @relation(fields: [locationId], references: [id])
+  locationId      String           @unique
+  date            DateTime         @default(now())
+  gradesCompleted GradeCompleted[]
+
+  @@unique([userId, date, locationId])
 }
