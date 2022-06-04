@@ -8,7 +8,7 @@ import Router from 'next/router'
 import React, { useState } from 'react'
 import Card from '../../components/generic/card/Card'
 import Loading from '../../components/generic/loading/Loading'
-import prisma from '../../lib/prisma'
+import prisma from '../../utils/prisma'
 
 type NotePageProps = {
   note: Note & {
