@@ -52,7 +52,7 @@ const NoteEditor: React.FC<NoteEditorProps> = () => {
         <Textarea placeholder='Type something...' value={noteContent} onChange={e => setNoteContent(e.target.value)}/>
         <ButtonGroup>
           <Button  type="submit" colorScheme='orange' variant='solid' disabled={!noteContent || !noteTitle}>
-            Button
+            Save
           </Button>
           <Button colorScheme='orange' variant='outline' onClick={() => setNoteEditMode(false)}>
             Cancel
