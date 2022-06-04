@@ -43,7 +43,7 @@ const Home: React.FC<HomeProps> = ({ locations }) => {
       <Map darkMode={darkMode} locations={locations}/>
       <Center p={4} mx="auto">
         <Button onClick={() => setDarkMode(!darkMode)}>
-          <span>{darkMode ? '😏' : '😭'}</span>
+          <span>{darkMode ? '🌞' : '🌑'}</span>
         </Button>
       </Center>
       <Hero />
