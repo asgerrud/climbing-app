@@ -18,7 +18,7 @@ const GradeNumberStepper: React.FC<GradeNumberStepperProps> = ({ color }) => {
           bgColor={color} color="white" w="42px" p={0} mr={2} textAlign="center" borderRadius={4}
           type="number" 
           value={count}
-          onChange={e => setCount(e.target.value)}
+          onChange={e => setCount(parseInt(e.target.value))}
         />
         <Slider
           mx={2}
