@@ -25,8 +25,8 @@ const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
         const { latitude, longitude } = position.coords
         const curCoords = { lat: latitude, lon: longitude }
         const nearestLocation = locations.reduce((a: cLocation, b: cLocation) => {
-          const distA = getDistanceBetween(curCoords, { lat: a.lat, lon: a.lon})
-          const distB = getDistanceBetween(curCoords, { lat: b.lat, lon: b.lon})
+          const distA = getDistanceBetween(curCoords, { lat: a.lat, lon: a.lon })
+          const distB = getDistanceBetween(curCoords, { lat: b.lat, lon: b.lon })
           return distA < distB ? a : b
         })
         setLocation(nearestLocation.name)

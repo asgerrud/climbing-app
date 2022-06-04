@@ -11,7 +11,7 @@ import GradeTable from '../components/profile/grade-table/GradeTable'
 import Card from '../components/generic/card/Card'
 import NoteEditor from '../components/profile/note-editor/NoteEditor'
 import Loading from '../components/generic/loading/Loading'
-import ActivityTracker from '../components/profile/activity-tracker/ActivityTracker';
+import ActivityTracker from '../components/profile/activity-tracker/ActivityTracker'
 
 type ProfileProps = {
   notes: Note[],

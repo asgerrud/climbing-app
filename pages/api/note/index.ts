@@ -1,5 +1,5 @@
 import { getSession } from 'next-auth/react'
-import prisma from '../../../lib/prisma'
+import prisma from '../../../utils/prisma'
 
 export default async function handle(req, res) {
   const { title, content, created_at } = req.body
