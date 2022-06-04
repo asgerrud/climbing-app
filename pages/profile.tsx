@@ -77,7 +77,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
   }
 
   return (
-    <Container maxW="120ch">
+    <Container maxW="120ch" py={4}>
       <Heading as="h1" size="lg" mb={3}>Profile</Heading>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
         <Box>
