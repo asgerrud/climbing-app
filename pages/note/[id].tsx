@@ -18,48 +18,6 @@ type NotePageProps = {
   }
 }
 
-async function deleteNote(id: string): Promise<void> {
-  await fetch(`/api/note/${id}`, {
-    method: 'DELETE',
-  })
-  Router.push('/profile')
-}
-
-async function updateNote(id: string, title: string, content: string, updatedAt: Date ): Promise<void> {
-  const updatedDate = updatedAt.toJSON()
-  await fetch(`/api/note/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify({ 
-      title, 
-      content, 
-      updatedAt: updatedDate 
-    })
-  })
-  .then(() => {
-    Router.reload()
-  })
-  .catch(error => {
-    console.log('error:', error)
-  })
-  
-}
-
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const note = await prisma.note.findUnique({
-    where: {
-      id: String(params?.id),
-    },
-    include: {
-      author: {
-        select: { name: true, email: true },
-      }
-    }
-  })
-  return {
-    props: { note: JSON.parse(JSON.stringify(note)) },
-  }
-}
-
 const NotePage: React.FC<NotePageProps> = (props) => {
   const { data: session, status } = useSession()
 
@@ -137,6 +95,48 @@ const NotePage: React.FC<NotePageProps> = (props) => {
       </Card>
     </Container>
   )
+}
+
+async function deleteNote(id: string): Promise<void> {
+  await fetch(`/api/note/${id}`, {
+    method: 'DELETE',
+  })
+  Router.push('/profile')
+}
+
+async function updateNote(id: string, title: string, content: string, updatedAt: Date ): Promise<void> {
+  const updatedDate = updatedAt.toJSON()
+  await fetch(`/api/note/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ 
+      title, 
+      content, 
+      updatedAt: updatedDate 
+    })
+  })
+  .then(() => {
+    Router.reload()
+  })
+  .catch(error => {
+    console.log('error:', error)
+  })
+  
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const note = await prisma.note.findUnique({
+    where: {
+      id: String(params?.id),
+    },
+    include: {
+      author: {
+        select: { name: true, email: true },
+      }
+    }
+  })
+  return {
+    props: { note: JSON.parse(JSON.stringify(note)) },
+  }
 }
 
 export default NotePage
