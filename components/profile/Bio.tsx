@@ -1,21 +1,25 @@
-import { Avatar, Box, Divider, Flex, Heading, Stat, StatLabel, StatNumber, Wrap, Text, WrapItem, Tag } from '@chakra-ui/react';
+import { Avatar, Box, Divider, Flex, Heading, Stat, StatLabel, StatNumber, Wrap, Text, WrapItem, Tag, Link } from '@chakra-ui/react'
+import NextLink from 'next/link'
 import React from 'react'
+
+
 
 type BioProps = {
   profile: {
-    name: string,
-    username: string,
-    avatarImg: string,
-    height: number,
-    armspan: number,
+    name: string
+    username: string
+    avatarImg: string
+    height: number
+    armspan: number
     apeIndex: number
     memberships: string[]
+    friends: any // temporary solution
   }
 }
 
 const Bio: React.FC<BioProps> = ({ profile }) => {
 
-  const { name, username, avatarImg, height, armspan, apeIndex, memberships } = profile
+  const { name, username, avatarImg, height, armspan, apeIndex, memberships, friends } = profile
 
   return (
     <Box>
@@ -53,11 +57,14 @@ const Bio: React.FC<BioProps> = ({ profile }) => {
       <Divider my={4}/>
       <Text fontSize="xl" mb={3}>Friends</Text>
       <Wrap pb={2}>
-        <Avatar name="Peter mortensen" size='md'/>
-        <Avatar name="Mogens iversen" size='md'/>
-        <Avatar name="Alexander Kallesen" size='md'/>
-        <Avatar name="Viktoria Klatresen" size='md'/>
-        <Avatar name="Lorem ipsum" size='md'/>
+        {friends.map((friend, index) => (
+          <NextLink key={index} href={`/profile/${friend.id}`} passHref>
+            <Link>
+              <Avatar src={friend.image} name={friend.name} size='md'/>
+            </Link>
+          </NextLink> 
+          )
+        )}
       </Wrap>    
     </Box>
   )

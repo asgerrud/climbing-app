@@ -5,6 +5,8 @@ type ClimbingAppUser = {
   email: string
   name: string
   image: string
+  memberships: string[]
+  friends: any // temporary solution
 }
 
 declare module 'next-auth' {
