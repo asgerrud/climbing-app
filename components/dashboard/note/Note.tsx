@@ -13,7 +13,7 @@ async function deleteNote(id: string): Promise<void> {
   await fetch(`/api/note/${id}`, {
     method: 'DELETE',
   })
-  Router.push('/profile')
+  Router.push('/dashboard')
 }
 
 const Note: React.FC<NoteProps> = ({ note }) => {

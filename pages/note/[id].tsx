@@ -60,7 +60,7 @@ const NotePage: React.FC<NotePageProps> = (props) => {
   return (
     <Container>
       <Card>
-        <Link href="/profile" display="inline-flex" alignItems="center" color="gray.400" _hover={{ textDecoration: 'none' }}>
+        <Link href="/dashboard" display="inline-flex" alignItems="center" color="gray.400" _hover={{ textDecoration: 'none' }}>
           <ArrowBackIcon mr={1}/>
           Back
         </Link>
@@ -101,7 +101,7 @@ async function deleteNote(id: string): Promise<void> {
   await fetch(`/api/note/${id}`, {
     method: 'DELETE',
   })
-  Router.push('/profile')
+  Router.push('/dashboard')
 }
 
 async function updateNote(id: string, title: string, content: string, updatedAt: Date ): Promise<void> {

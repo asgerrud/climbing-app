@@ -28,7 +28,7 @@ const NoteEditor: React.FC<NoteEditorProps> = () => {
       })
       setNoteTitle('')
       setNoteContent('')
-      await Router.push('/profile')
+      await Router.push('/dashboard')
     } catch (error) {
     
     };
