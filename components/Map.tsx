@@ -21,10 +21,11 @@ const Map: FC<MapProps> = ({ locations, darkMode }) => {
 
   return (
     <>
-      <MapContainer center={[55.662622, 12.568025]} zoom={12} style={{ height: '85vh', width: '100%' }}>
+      <MapContainer center={[55.662622, 12.568025]} zoom={12} style={{ height: '85vh', width: '100%', zIndex: 1 }}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={darkMode ? tileLayerDark : tileLayerLight}
+          zIndex={1}
         />
         {locations.map((location, index) => {
           const { id, name, lat, lon, categories } = location

@@ -5,19 +5,17 @@ import {
   HStack,
   Link,
   Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuGroup,
+  MenuItem,
+  Portal,
 } from '@chakra-ui/react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 
 const NavLink = ({ href, children }: { href?: string, children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    fontWeight="semibold"
-    _hover={{
-      textDecoration: 'none',
-    }}
-    href={href}>
+  <Link _hover={{ textDecoration: 'none' }} href={href}>
     {children}
   </Link>
 )
@@ -25,6 +23,8 @@ const NavLink = ({ href, children }: { href?: string, children: ReactNode }) => 
 export default function Navbar() {
   
   const { data: session } = useSession()
+
+  const userId = session?.user?.id
 
   return (
     <>
@@ -37,8 +37,24 @@ export default function Navbar() {
             {session
               ? (
                 <HStack>
-                  <NavLink href="/profile">Profile</NavLink>
                   <Button onClick={() => signOut()}>Logout</Button>
+                  <Menu>
+                    <MenuButton as={Button} colorScheme='orange'>
+                      Profile
+                    </MenuButton>
+                    <Portal>
+                      <MenuList>
+                        <MenuGroup title='Profile'>
+                          <MenuItem>
+                            <NavLink href="/dashboard">Dashboard</NavLink>
+                          </MenuItem>
+                          <MenuItem>
+                            <NavLink href={`/profile/${userId}`}>View Profile</NavLink>
+                          </MenuItem>
+                        </MenuGroup>
+                      </MenuList>
+                    </Portal>
+                  </Menu>
                 </HStack>
               )
               : <Button onClick={() => signIn()} colorScheme='orange'>Login</Button>

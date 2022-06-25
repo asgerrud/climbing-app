@@ -4,21 +4,21 @@ import { Note, Location as cLocation } from '@prisma/client'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
 
-import { Box, Container, Divider, Flex, Text, Heading, SimpleGrid, VStack, Stack } from '@chakra-ui/react'
+import { Box, Container, Divider, Flex, Text, Heading, SimpleGrid, Stack } from '@chakra-ui/react'
 import { WarningIcon } from '@chakra-ui/icons'
-import NoteGrid from '../components/training/note-grid/NoteGrid'
-import GradeTable from '../components/training/grade-table/GradeTable'
+import NoteGrid from '../components/dashboard/note-grid/NoteGrid'
+import GradeTable from '../components/dashboard/grade-table/GradeTable'
 import Card from '../components/generic/card/Card'
-import NoteEditor from '../components/training/note-editor/NoteEditor'
+import NoteEditor from '../components/dashboard/note-editor/NoteEditor'
 import Loading from '../components/generic/loading/Loading'
-import ActivityTracker from '../components/training/activity-tracker/ActivityTracker'
+import ActivityTracker from '../components/dashboard/activity-tracker/ActivityTracker'
 
-type ProfileProps = {
+type DashboardProps = {
   notes: Note[],
   locations: cLocation[]
 }
 
-const Profile: React.FC<ProfileProps> = (props) => {
+const Dashboard: React.FC<DashboardProps> = (props) => {
 
   const { data: session, status } = useSession()
 
@@ -29,7 +29,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
   if (!session) {
     return (
       <Container>
-        <Heading size="lg" mb={3}>Profile</Heading>
+        <Heading size="lg" mb={3}>Dashboard</Heading>
         <Card>
           <Box display="flex" justifyContent="center">
             <Flex alignItems="center" color="red.400">
@@ -43,7 +43,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
 
   return (
     <Container maxW="120ch" py={4}>
-      <Heading as="h1" size="lg" mb={3}>Profile</Heading>
+      <Heading as="h1" size="lg" mb={3}>Dashboard</Heading>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
         <Stack spacing={4}>
           <Card>
@@ -102,4 +102,4 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   }
 }
 
-export default Profile
+export default Dashboard
