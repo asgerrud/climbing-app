@@ -4,12 +4,8 @@ import {
   Flex,
   HStack,
   Link,
-  IconButton,
-  useDisclosure,
-  Stack,
   Button,
 } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { useSession, signIn, signOut } from 'next-auth/react'
 
 const NavLink = ({ href, children }: { href?: string, children: ReactNode }) => (
@@ -32,7 +28,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Box bg='gray.100' px={4}>
+      <Box px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Flex w="100%" justifyContent='space-between'>
             <HStack spacing={8} alignItems={'center'}>

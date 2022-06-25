@@ -27,7 +27,7 @@ const Note: React.FC<NoteProps> = ({ note }) => {
   const handleRemove = () => { deleteNote(id) }
 
   return (
-    <Flex key={id} w="100%" p={2} bgColor="gray.200" justifyContent="space-between" alignItems="center" borderRadius={4}>
+    <Flex key={id} w="100%" p={2} bgColor="whiteAlpha.100" justifyContent="space-between" alignItems="center" borderRadius={4}>
       <Link href={`/note/${id}`} textDecoration="none">
         <Text>{title}</Text>
       </Link>
