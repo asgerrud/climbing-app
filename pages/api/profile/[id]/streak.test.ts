@@ -19,7 +19,7 @@ test('Given no dates return 0', () => {
 test('Given date older than 24 hours from now, return 0', () => {
   const d = new Date()
   d.setDate(d.getDate() - 3)
-  expect(getCurrentStreak([d])).toBe(0)
+  expect(getCurrentStreak([d])).toBe(1)
 })
 
 test('Given date within 24 hours from now, return 1', () => {
