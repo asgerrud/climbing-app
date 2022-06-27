@@ -93,22 +93,6 @@ model Note {
   author     User?    @relation(fields: [authorId], references: [id])
 }
 
-model Grade {
-  id              String          @id @default(cuid())
-  name            String
-  gradesCompleted GradeCompleted?
-}
-
-model GradeCompleted {
-  grade      Grade    @relation(fields: [gradeId], references: [id])
-  gradeId    String
-  activity   Activity @relation(fields: [activityId], references: [id])
-  activityId String
-  amount     Int
-
-  @@unique([activityId, gradeId])
-}
-
 model Activity {
   id              String           @id @default(cuid())
   User            User             @relation(fields: [userId], references: [id])
@@ -116,7 +100,6 @@ model Activity {
   Location        Location         @relation(fields: [locationId], references: [id])
   locationId      String           @unique
   date            DateTime         @default(now())
-  gradesCompleted GradeCompleted[]
 
   @@unique([userId, date, locationId])
 }

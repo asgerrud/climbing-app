@@ -65,7 +65,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   return { props: { 
     user: JSON.parse(JSON.stringify(user)), 
     friends: JSON.parse(JSON.stringify(friends)) // temporary solution
-  }}
+  } }
 }
 
 export default ProfilePage

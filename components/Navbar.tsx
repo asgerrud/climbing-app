@@ -11,6 +11,7 @@ import {
   MenuGroup,
   MenuItem,
   Portal,
+  Divider,
 } from '@chakra-ui/react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 
@@ -37,7 +38,6 @@ export default function Navbar() {
             {session
               ? (
                 <HStack>
-                  <Button onClick={() => signOut()}>Logout</Button>
                   <Menu>
                     <MenuButton as={Button} colorScheme='orange'>
                       Profile
@@ -51,6 +51,8 @@ export default function Navbar() {
                           <MenuItem>
                             <NavLink href={`/profile/${userId}`}>View Profile</NavLink>
                           </MenuItem>
+                          <Divider />
+                          <MenuItem onClick={() => signOut()}>Logout</MenuItem>
                         </MenuGroup>
                       </MenuList>
                     </Portal>
