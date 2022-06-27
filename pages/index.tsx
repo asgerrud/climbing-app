@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { GetStaticProps } from 'next'
 import dynamic from 'next/dynamic'
 import Hero from '../components/Hero'
@@ -36,7 +36,7 @@ const Home: React.FC<HomeProps> = ({ locations }) => {
     { 
       loading: () => <p>Loading...</p>,
       ssr: false 
-    } // This line is important. It's what prevents server-side render
+    }
   ), [colorMode])
 
   return (

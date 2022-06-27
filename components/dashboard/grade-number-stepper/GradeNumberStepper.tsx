@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Input, InputGroup, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack } from '@chakra-ui/react'
+import { Box, Button, HStack, Input, InputGroup, Slider, SliderFilledTrack, SliderThumb, SliderTrack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
 type GradeNumberStepperProps = {
