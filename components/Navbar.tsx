@@ -35,9 +35,10 @@ export default function Navbar() {
             <HStack spacing={8} alignItems={'center'}>
               <NavLink href="/">🧗‍♂️</NavLink>
             </HStack>
+            <HStack spacing={8}>
+            <NavLink href="/map">Map</NavLink>
             {session
               ? (
-                <HStack>
                   <Menu>
                     <MenuButton as={Button} colorScheme='orange'>
                       Profile
@@ -57,10 +58,10 @@ export default function Navbar() {
                       </MenuList>
                     </Portal>
                   </Menu>
-                </HStack>
               )
               : <Button onClick={() => signIn()} colorScheme='orange'>Login</Button>
             }
+            </HStack>
           </Flex>
         </Flex>
       </Box>
