@@ -9,7 +9,7 @@ export default function Hero() {
         <Heading>🧗‍♂️ Send-it</Heading>
         <HStack justifyContent="center" spacing={4}>
           <NextLink href='/map' passHref>
-            <Button colorScheme='orange'>Browse locations</Button>
+            <Button colorScheme='orange'>Browse</Button>
           </NextLink>
         </HStack>
       </Stack>
