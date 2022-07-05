@@ -1,5 +1,10 @@
 import NextAuth from 'next-auth'
 
+type latLng = {
+  lat: number
+  lng: number
+}
+
 type ClimbingAppUser = {
   id: string
   email: string

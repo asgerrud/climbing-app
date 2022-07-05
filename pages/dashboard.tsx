@@ -4,7 +4,7 @@ import { Note, Location as cLocation } from '@prisma/client'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
 
-import { Box, Container, Divider, Flex, Text, Heading, SimpleGrid, Stack } from '@chakra-ui/react'
+import { Box, Container, Divider, Flex, Text, Heading, SimpleGrid, Stack, Button, useColorMode, Center } from '@chakra-ui/react'
 import { WarningIcon } from '@chakra-ui/icons'
 import NoteGrid from '../components/dashboard/note-grid/NoteGrid'
 import GradeTable from '../components/dashboard/grade-table/GradeTable'
@@ -20,6 +20,7 @@ type DashboardProps = {
 
 const Dashboard: React.FC<DashboardProps> = (props) => {
 
+  const { colorMode, toggleColorMode } = useColorMode()
   const { data: session, status } = useSession()
 
   if (status === 'loading') {
@@ -63,6 +64,15 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           <ActivityTracker locations={props.locations} />
         </Card>
       </SimpleGrid>
+      <Box mt={4}>
+        <Card>
+          <Center>
+            <Button onClick={toggleColorMode}>
+              <span>{colorMode === 'light' ? '🌞' : '🌑'}</span>
+            </Button>
+          </Center>
+        </Card>
+      </Box>
     </Container>
   )
 }
