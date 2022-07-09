@@ -1,4 +1,5 @@
-import { Button, HStack, Select, Text } from '@chakra-ui/react'
+import { CloseIcon } from '@chakra-ui/icons';
+import { Box, Button, Flex, HStack, Select, Stack, Text } from '@chakra-ui/react'
 import { useState } from 'react'
 
 type SelectListProps = {
@@ -26,7 +27,7 @@ const SelectList: React.FC<SelectListProps> = ({ label = 'option', options, onOp
 
   return (
     <>
-        <HStack spacing={2} {...styleProps} mb={2} >
+        <HStack spacing={2} {...styleProps} >
           <Select value={currentOption} onChange={(e) => setCurrentOption(e.target.value)}>
             <option value="">Select {label}</option>
             {options.filter(option => optionsSelected.includes(option) == false).map((option, _idx) => {
@@ -35,9 +36,14 @@ const SelectList: React.FC<SelectListProps> = ({ label = 'option', options, onOp
           </Select>
           <Button onClick={addOption}>Add</Button>
         </HStack>
-      {optionsSelected.map((option, _idx) => {
-        return <Text key={_idx} my={1}>{option}</Text>
-      })}
+        <Stack>
+          {optionsSelected.map((option, _idx) =>
+            <Flex key={_idx} w="100%" px={3} py={0.25} alignItems="center" justifyContent="space-between" bgColor="whiteAlpha.100">
+              <Text my={1}>{option}</Text>
+              <CloseIcon w={3} h={3}/>
+            </Flex>
+          )}
+        </Stack>
     </>
   )
 }
