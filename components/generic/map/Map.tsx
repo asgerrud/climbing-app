@@ -3,6 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMapEvent } from 'react-leafl
 import L, { LatLng } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import MarkerIcon from './MarkerIcon';
+import { Badge, Heading, Wrap } from '@chakra-ui/react';
 
 type MapProps = {
   height?: string
@@ -41,13 +42,18 @@ const Map: FC<MapProps> = ({ height = 'calc(100vh - 64px)', locations, darkMode,
             <Marker position={userMarker} icon={markerIcon} />
           </>
         )}
-        {locations.map((location, index) => {
+        {locations.map(location => {
           const { id, name, lat, lon, facilities } = location
           const icon = MarkerIcon(facilities[0].iconUrl)
           return (
             <Marker key={id} icon={icon} position={[lat, lon]}>
               <Popup>
-                <h4>{name}</h4>
+                <Heading as="h4" size="md">{name}</Heading>
+                <Wrap mt={2} spacing={1}>
+                  {location.facilities.map(facility => (
+                    <Badge key={facility.name} fontSize='1em' textTransform="none" px={1} py={0.5} variant='solid' colorScheme='orange'>{facility.name}</Badge>
+                  ))}
+                </Wrap>
               </Popup>
             </Marker> 
           )
