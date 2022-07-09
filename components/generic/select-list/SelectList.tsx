@@ -5,11 +5,11 @@ import { useState } from 'react'
 type SelectListProps = {
   label?: string
   options: string[]
-  onOptionAdded?: (o: string[]) => void
+  onOptionsChanged?: (o: string[]) => void
   [x:string]: any
 }
 
-const SelectList: React.FC<SelectListProps> = ({ label = 'option', options, onOptionAdded, ...styleProps }) => {
+const SelectList: React.FC<SelectListProps> = ({ label = 'option', options, onOptionsChanged, ...styleProps }) => {
   
   const [currentOption, setCurrentOption] = useState('')
   const [optionsSelected, setOptionsSelected ] = useState<string[]>([])
@@ -19,10 +19,16 @@ const SelectList: React.FC<SelectListProps> = ({ label = 'option', options, onOp
     if (currentOption == '') return 
     if (optionsSelected.includes(currentOption) == false) {
       options.push(currentOption)
-      setOptionsSelected([...options])
+      setOptionsSelected(options)
       setCurrentOption('')
-      onOptionAdded(optionsSelected)
+      onOptionsChanged(optionsSelected)
     }
+  }
+
+  const removeOption = (option: string) => { 
+    const options = optionsSelected.filter(o => o !== option)
+    setOptionsSelected(options) 
+    onOptionsChanged(options)
   }
 
   return (
@@ -40,7 +46,7 @@ const SelectList: React.FC<SelectListProps> = ({ label = 'option', options, onOp
           {optionsSelected.map((option, _idx) =>
             <Flex key={_idx} w="100%" px={3} py={0.25} alignItems="center" justifyContent="space-between" bgColor="whiteAlpha.100">
               <Text my={1}>{option}</Text>
-              <CloseIcon w={3} h={3}/>
+              <CloseIcon w={3} h={3} cursor="pointer" onClick={() => removeOption(option)}/>
             </Flex>
           )}
         </Stack>
