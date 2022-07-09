@@ -2,8 +2,8 @@ import { Button, HStack, Select, StackProps } from '@chakra-ui/react'
 import { useState } from 'react'
 
 type SelectListProps = {
-  options: any[]
-  styleProps: StackProps
+  options: string[]
+  [x:string]: any
 }
 
 const SelectList: React.FC<SelectListProps> = ({ options, ...styleProps }) => {
