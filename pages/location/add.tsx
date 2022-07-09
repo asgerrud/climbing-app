@@ -51,13 +51,16 @@ const AddPage: React.FC<AddPageProps> = ({ locations, facilities, types }: AddPa
     <Container>
       <Heading as="h1" size="lg" mb={4}>Add location</Heading>
       <Stack spacing={4} mb={10}>
+        <Text as="label">Name</Text>
         <Input placeholder='Name' value={name} onChange={e => setName(e.target.value)} />
+        <Text as="label">Type</Text>
         <Select onChange={e => setTypeSelected(e.target.value)}>
-          <option value="">Select option</option>
+          <option value="">Select type</option>
           {typeNames.map(type => <option key={type} value={type}>{type}</option>)}
         </Select>
-        <SelectList label="facility" options={facilityNames} onOptionsChanged={(options) => setOptionsSelected(options)}/>
-        <Text fontSize="xl">Select location</Text>
+        <Text as="label">Facilities</Text>
+        <SelectList label="facility" mt={0} options={facilityNames} onOptionsChanged={(options) => setOptionsSelected(options)}/>
+        <Text>Select location</Text>
         <Flex flexDirection="column" alignItems="flex-end">
           <Map height="30vh" darkMode={colorMode === 'dark'} locations={locations} onPlaceMarker={onPlaceMarker}/>
           <Text as="small" color="whiteAlpha.400">{latLng?.lat.toFixed(7) || '0'}, {latLng?.lng.toFixed(7) || '0'}</Text>
