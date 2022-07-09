@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -66,7 +65,7 @@ model Location {
   lon        Float
   createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
-  categories Category[]
+  facilities Facility[]
   type       Type[]
   Activity   Activity?
 }
@@ -77,7 +76,7 @@ model Type {
   Location Location[]
 }
 
-model Category {
+model Facility {
   id       Int        @id @default(autoincrement())
   name     String
   iconUrl  String
