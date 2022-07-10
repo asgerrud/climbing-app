@@ -12,6 +12,7 @@ import Card from '../components/generic/card/Card'
 import NoteEditor from '../components/dashboard/note-editor/NoteEditor'
 import Loading from '../components/generic/loading/Loading'
 import ActivityTracker from '../components/dashboard/activity-tracker/ActivityTracker'
+import MissingAuthentication from '../components/generic/screens/MissingAuthentication';
 
 type DashboardProps = {
   notes: Note[],
@@ -26,20 +27,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   if (status === 'loading') {
     return <Loading />
   }
-
-  if (!session) {
-    return (
-      <Container>
-        <Heading size="lg" mb={3}>Dashboard</Heading>
-        <Card>
-          <Box display="flex" justifyContent="center">
-            <Flex alignItems="center" color="red.400">
-              <WarningIcon mr={2}/> <p>You need to be authenticated to view this page</p>
-            </Flex>
-          </Box>
-        </Card>
-      </Container>
-    )
+  if (!session && status != 'authenticated') {
+    return <MissingAuthentication />
   }
 
   return (
