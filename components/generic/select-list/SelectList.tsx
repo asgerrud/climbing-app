@@ -33,23 +33,23 @@ const SelectList: React.FC<SelectListProps> = ({ label = 'option', options, onOp
 
   return (
     <>
-        <HStack spacing={2} {...styleProps} >
-          <Select value={currentOption} onChange={(e) => setCurrentOption(e.target.value)}>
-            <option value="">Select {label}</option>
-            {options.filter(option => optionsSelected.includes(option) == false).map((option, _idx) => {
-              return <option key={_idx} value={option}>{option}</option>
-            })}
-          </Select>
-          <Button onClick={addOption}>Add</Button>
-        </HStack>
-        <Stack>
-          {optionsSelected.map((option, _idx) =>
-            <Flex key={_idx} w="100%" px={3} py={0.25} alignItems="center" justifyContent="space-between" bgColor="whiteAlpha.100">
-              <Text my={1}>{option}</Text>
-              <CloseIcon w={3} h={3} cursor="pointer" onClick={() => removeOption(option)}/>
-            </Flex>
-          )}
-        </Stack>
+      <Stack mt={4} mb={2}>
+        {optionsSelected.map((option, _idx) =>
+          <Flex key={_idx} w="100%" px={3} py={0.5} borderRadius="5px" alignItems="center" justifyContent="space-between" bgColor="whiteAlpha.100">
+            <Text my={1}>{option}</Text>
+            <CloseIcon w={3} h={3} cursor="pointer" onClick={() => removeOption(option)}/>
+          </Flex>
+        )}
+      </Stack>
+      <HStack spacing={2} {...styleProps} >
+        <Select value={currentOption} onChange={(e) => setCurrentOption(e.target.value)}>
+          <option value="">Select {label}</option>
+          {options.filter(option => optionsSelected.includes(option) == false).map((option, _idx) => {
+            return <option key={_idx} value={option}>{option}</option>
+          })}
+        </Select>
+        <Button onClick={addOption}>Add</Button>
+      </HStack>
     </>
   )
 }
