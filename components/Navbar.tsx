@@ -12,12 +12,15 @@ import {
   MenuItem,
   Portal,
   Divider,
+  Text
 } from '@chakra-ui/react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 
-const NavLink = ({ href, children }: { href?: string, children: ReactNode }) => (
-  <Link _hover={{ textDecoration: 'none' }} href={href}>
-    {children}
+const ClickableMenuItem = ({ href, children }: { href?: string, children: ReactNode }) => (
+  <Link href={href} _hover={{ textDecoration: 'none' }}>
+    <MenuItem>
+      {children}
+    </MenuItem>
   </Link>
 )
 
@@ -32,26 +35,28 @@ export default function Navbar() {
       <Box px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Flex w="100%" justifyContent='space-between'>
-            <HStack spacing={8} alignItems={'center'}>
-              <NavLink href="/">🧗‍♂️</NavLink>
-            </HStack>
-            <HStack spacing={8}>
-            <NavLink href="/map">Map</NavLink>
+            <Flex alignItems={'center'}>
+              <Link href="/" _hover={{ textDecoration: 'none' }}>🧗‍♂️</Link>
+            </Flex>
+            <HStack spacing={4}>
+            <Link href="/map" _hover={{ textDecoration: 'none' }}>
+              <Button variant='link'>Map</Button>
+            </Link>
             {session
               ? (
                   <Menu>
-                    <MenuButton as={Button} colorScheme='orange'>
+                    <MenuButton as={Button}>
                       Profile
                     </MenuButton>
                     <Portal>
                       <MenuList>
                         <MenuGroup title='Profile'>
-                          <MenuItem>
-                            <NavLink href="/dashboard">Dashboard</NavLink>
-                          </MenuItem>
-                          <MenuItem>
-                            <NavLink href={`/profile/${userId}`}>View Profile</NavLink>
-                          </MenuItem>
+                          <ClickableMenuItem href="/dashboard">
+                            Dashboard
+                          </ClickableMenuItem>
+                          <ClickableMenuItem href={`/profile/${userId}`}>
+                            View Profile
+                          </ClickableMenuItem>
                           <Divider />
                           <MenuItem onClick={() => signOut()}>Logout</MenuItem>
                         </MenuGroup>
@@ -59,7 +64,7 @@ export default function Navbar() {
                     </Portal>
                   </Menu>
               )
-              : <Button onClick={() => signIn()} colorScheme='orange'>Login</Button>
+              : <Button onClick={() => signIn()}>Login</Button>
             }
             </HStack>
           </Flex>
