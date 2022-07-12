@@ -41,7 +41,6 @@ export const getStaticProps: GetStaticProps = async () => {
       facilities: {
         select: {
           name: true,
-          iconUrl: true
         }
       }
     }

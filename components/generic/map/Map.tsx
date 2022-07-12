@@ -44,7 +44,7 @@ const Map: FC<MapProps> = ({ height = 'calc(100vh - 64px)', locations, darkMode,
         )}
         {locations.map(location => {
           const { id, name, lat, lon, facilities } = location
-          const icon = MarkerIcon(facilities[0].iconUrl)
+          const icon = MarkerIcon()
           return (
             <Marker key={id} icon={icon} position={[lat, lon]}>
               <Popup>

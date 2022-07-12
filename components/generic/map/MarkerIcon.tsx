@@ -1,6 +1,6 @@
 import L from 'leaflet'
 
-const MarkerIcon = (filename, options = null) => { 
+const MarkerIcon = (filename = 'bouldering-gym.png', options = null) => { 
   return L.icon({
     iconUrl: `../assets/images/${filename}`,
     iconRetinaUrl: `../assets/images/${filename}`,

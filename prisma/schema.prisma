@@ -65,22 +65,25 @@ model Location {
   lon        Float
   createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
-  facilities Facility[]
-  type       Type[]
   Activity   Activity?
+  type      Type[]
+  facilities Facility[]
 }
 
 model Type {
   id       Int        @id @default(autoincrement())
   name     String
-  Location Location[]
+  Location Location    @relation(fields: [locationId], references: [id])
+  locationId String
+  @@unique([name, locationId])
 }
 
 model Facility {
   id       Int        @id @default(autoincrement())
   name     String
-  iconUrl  String
-  Location Location[]
+  Location Location    @relation(fields: [locationId], references: [id])
+  locationId String
+  @@unique([name, locationId])
 }
 
 model Note {
