@@ -38,10 +38,11 @@ const MapPage: React.FunctionComponent<MapProps> = ({ locations }) => {
 export const getStaticProps: GetStaticProps = async () => {
   const locations = await prisma.location.findMany({
     include: {
+      type: {
+        select: { name: true }
+      },
       facilities: {
-        select: {
-          name: true,
-        }
+        select: { name: true }
       }
     }
   })

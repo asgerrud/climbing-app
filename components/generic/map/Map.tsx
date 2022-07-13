@@ -1,9 +1,9 @@
 import { FC, useState } from 'react'
 import { MapContainer, Marker, Popup, TileLayer, useMapEvent } from 'react-leaflet'
-import L, { LatLng } from 'leaflet'
+import { LatLng } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import MarkerIcon from './MarkerIcon';
-import { Badge, Heading, Wrap } from '@chakra-ui/react';
+import MarkerIcon from './MarkerIcon'
+import { Badge, Heading, Text, Wrap } from '@chakra-ui/react'
 
 type MapProps = {
   height?: string
@@ -43,15 +43,19 @@ const Map: FC<MapProps> = ({ height = 'calc(100vh - 64px)', locations, darkMode,
           </>
         )}
         {locations.map(location => {
-          const { id, name, lat, lon, facilities } = location
+          const { id, name, lat, lon, type, facilities } = location
+          console.log(location)
           const icon = MarkerIcon()
           return (
             <Marker key={id} icon={icon} position={[lat, lon]}>
               <Popup>
                 <Heading as="h4" size="md">{name}</Heading>
+                <Text><b>Type</b>: <span>{type[0].name}</span></Text>
                 <Wrap mt={2} spacing={1}>
-                  {location.facilities.map(facility => (
-                    <Badge key={facility.name} fontSize='1em' textTransform="none" px={1} py={0.5} variant='solid' colorScheme='orange'>{facility.name}</Badge>
+                  {facilities.map(facility => (
+                    <Badge key={facility.name} fontSize='1em' textTransform="none" px={1} py={0.5} variant='solid' colorScheme='orange'>
+                      <span>{facility.name}</span>
+                    </Badge>
                   ))}
                 </Wrap>
               </Popup>
