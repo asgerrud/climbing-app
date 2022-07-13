@@ -1,22 +1,29 @@
 import React from 'react'
 import prisma from '../utils/prisma'
-import { Note, Location as cLocation } from '@prisma/client'
+import { Note, Location as cLocation, Activity } from '@prisma/client'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
 
-import { Box, Container, Divider, Flex, Text, Heading, SimpleGrid, Stack, Button, useColorMode, Center } from '@chakra-ui/react'
-import { WarningIcon } from '@chakra-ui/icons'
+import { Box, Container, Divider, Text, Heading, SimpleGrid, Stack, Button, useColorMode, Center, VStack, Flex } from '@chakra-ui/react'
 import NoteGrid from '../components/dashboard/note-grid/NoteGrid'
 import GradeTable from '../components/dashboard/grade-table/GradeTable'
 import Card from '../components/generic/card/Card'
 import NoteEditor from '../components/dashboard/note-editor/NoteEditor'
 import Loading from '../components/generic/loading/Loading'
 import ActivityTracker from '../components/dashboard/activity-tracker/ActivityTracker'
-import MissingAuthentication from '../components/generic/screens/MissingAuthentication';
+import MissingAuthentication from '../components/generic/screens/MissingAuthentication'
+import dateFormat from 'dateformat'
 
 type DashboardProps = {
   notes: Note[],
   locations: cLocation[]
+  activities: {
+    id: string
+    date: Date,
+    Location: {
+      name: string
+    }
+  }[]
 }
 
 const Dashboard: React.FC<DashboardProps> = (props) => {
@@ -51,6 +58,28 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           <Text>🔥 54</Text>
           <Divider my={4} />
           <ActivityTracker locations={props.locations} />
+          <VStack spacing={2} mt={4}>
+            {/* TODO: add pagination */}
+            {props.activities.map(activity => { 
+              
+              const date = dateFormat(activity.date, 'dd/mm/yyyy')
+
+              return (
+                <Flex 
+                  key={activity.id} 
+                  p={2}
+                  w="100%"
+                  bgColor="whiteAlpha.100" 
+                  justifyContent="space-between" 
+                  alignItems="center" 
+                  borderRadius={4}
+                >
+                  <span>{activity.Location.name}</span>
+                  <span>{date}</span>
+                </Flex>
+              )
+            })}
+          </VStack>
         </Card>
       </SimpleGrid>
       <Box mt={4}>
@@ -77,6 +106,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     where: {
       author: { email: session.user.email },
     },
+    orderBy: {
+      created_at: 'desc',
+    },
     select: {
       id: true,
       title: true,
@@ -87,16 +119,36 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   const locations = await prisma.location.findMany({
     select: {
+      id: true,
       name: true,
       lat: true,
       lon: true
     }
   })
 
+  const activities = await prisma.activity.findMany({
+    where: {
+      User: { email: session.user.email }
+    },
+    orderBy: {
+      date: 'desc',
+    },
+    select: {
+      id: true,
+      date: true,
+      Location: {
+        select: {
+          name: true
+        }
+      }
+    }
+  })
+
   return {
     props: { 
       notes: JSON.parse(JSON.stringify(notes)),
-      locations: JSON.parse(JSON.stringify(locations))
+      locations: JSON.parse(JSON.stringify(locations)),
+      activities: JSON.parse(JSON.stringify(activities))
     },
   }
 }

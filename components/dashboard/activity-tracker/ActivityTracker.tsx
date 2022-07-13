@@ -3,7 +3,6 @@ import { CalendarIcon, ChevronDownIcon } from '@chakra-ui/icons'
 import { Button, HStack, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, useDisclosure } from '@chakra-ui/react'
 import dateFormat from 'dateformat'
 import { useState } from 'react'
-import GradeNumberStepper from '../grade-number-stepper/GradeNumberStepper'
 import { Location as cLocation } from '@prisma/client'
 import { getDistanceBetween } from '../../../utils/geo'
 
@@ -11,18 +10,15 @@ type ActivityTrackerProps = {
   locations: cLocation[]
 }
 
-// TEMPORARY SOLUTION
-const grades = ['green','yellow','orange','blue','purple','red','black','pink']  
-
 const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
 
   const today = dateFormat(new Date(), 'yyyy-mm-dd')
 
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [location, setLocation] = useState('')
+  const [locationId, setLocationId] = useState('')
   const [date, setDate] = useState(today)
 
-  const findNearest = () => {
+  const findNearestLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const { latitude, longitude } = position.coords
@@ -32,17 +28,37 @@ const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
           const distB = getDistanceBetween(curCoords, { lat: b.lat, lon: b.lon })
           return distA < distB ? a : b
         })
-        setLocation(nearestLocation.name)
+        setLocationId(nearestLocation.id)
       })
     } else {
       // error handling
+      alert('An error occurred fetching your location')
     }
   }
+
+  async function addActivity(): Promise<void> {
+    const body = { location: locationId, date: date }
+    await fetch('/api/activity', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    .then((response) => {
+      if (response.ok) {
+        onClose()
+        return response.json()
+      }
+      throw new Error(response.statusText)
+    })
+    .catch((error) => {
+      alert(error)
+    })
+  }
+
 
   return (
     <>
       <Button colorScheme="orange" onClick={onOpen}>Add activity</Button>
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -53,15 +69,15 @@ const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
               <Stack spacing={4}>
                 {/* TODO: fetch dynamically */}
                 <HStack>
-                  <Select icon={<ChevronDownIcon />} placeholder='Select gym' value={location} required>
+                  <Select icon={<ChevronDownIcon />} placeholder='Select location' value={locationId} onChange={(e) => setLocationId(e.target.value)} required>
                     {locations.sort().map(location => {
                       const name = location.name
                       return (
-                        <option key={location.id} value={name}>{name}</option>
+                        <option key={location.id} value={location.id}>{name}</option>
                       )
                     })}
                   </Select>
-                  <Button px={8} onClick={findNearest}>Find location</Button>
+                  <Button px={8} onClick={findNearestLocation}>Find location</Button>
                 </HStack>
                 <InputGroup>
                   <InputLeftElement pointerEvents='none'>
@@ -73,21 +89,13 @@ const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
                     onChange={e => setDate(e.target.value)}
                   />
                 </InputGroup>
-                <Stack spacing={4}>
-                  {grades.map(grade => {
-                    const color = grade === 'black' ? 'black' : `${grade}.500`
-                    return (
-                      <GradeNumberStepper key={grade} color={color} />
-                    )
-                  })}
-                </Stack>
               </Stack>
             </form>
           </ModalBody>
           <ModalFooter>
             <Stack direction='row' spacing={2} align='center'>
               <Button variant='ghost' onClick={onClose}>Cancel</Button>
-              <Button colorScheme='orange'>
+              <Button colorScheme='orange' onClick={addActivity} disabled={locationId == '' || date == ''}>
                 Save
               </Button>
             </Stack>

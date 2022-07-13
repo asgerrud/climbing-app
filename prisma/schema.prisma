@@ -36,16 +36,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  created_at    DateTime  @default(now())
+  created_at    DateTime   @default(now())
   Note          Note[]
-  Activity      Activity?
+  Activity      Activity[]
 }
 
 model VerificationToken {
@@ -65,24 +65,26 @@ model Location {
   lon        Float
   createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
-  Activity   Activity?
-  type      Type[]
+  Activity   Activity[]
+  type       Type[]
   facilities Facility[]
 }
 
 model Type {
-  id       Int        @id @default(autoincrement())
-  name     String
-  Location Location    @relation(fields: [locationId], references: [id])
+  id         Int      @id @default(autoincrement())
+  name       String
+  Location   Location @relation(fields: [locationId], references: [id])
   locationId String
+
   @@unique([name, locationId])
 }
 
 model Facility {
-  id       Int        @id @default(autoincrement())
-  name     String
-  Location Location    @relation(fields: [locationId], references: [id])
+  id         Int      @id @default(autoincrement())
+  name       String
+  Location   Location @relation(fields: [locationId], references: [id])
   locationId String
+
   @@unique([name, locationId])
 }
 
@@ -97,12 +99,10 @@ model Note {
 }
 
 model Activity {
-  id              String           @id @default(cuid())
-  User            User             @relation(fields: [userId], references: [id])
-  userId          String           @unique
-  Location        Location         @relation(fields: [locationId], references: [id])
-  locationId      String           @unique
-  date            DateTime         @default(now())
-
-  @@unique([userId, date, locationId])
+  id         String   @id @default(cuid())
+  User       User     @relation(fields: [userId], references: [id])
+  userId     String  
+  Location   Location @relation(fields: [locationId], references: [id])
+  locationId String
+  date       DateTime @default(now())
 }
