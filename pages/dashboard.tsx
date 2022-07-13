@@ -71,7 +71,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
               <AccordionPanel pb={4}>
                 <VStack spacing={2}>
                 {/* TODO: add pagination */}
-                {props.activities.map(activity => { 
+                {props.activities.map((activity, idx) => { 
                   
                   const date = dateFormat(activity.date, 'dd/mm/yyyy')
 
@@ -83,7 +83,10 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
                       alignItems="center" 
                       borderRadius={4}
                     >
-                      <span>{activity.Location.name}</span>
+                      <div>
+                        <Text as="span" color="whiteAlpha.300" mr={1}>{idx + 1}</Text>
+                        <span> {activity.Location.name}</span>
+                      </div>
                       <span>{date}</span>
                     </Flex>
                   )
