@@ -4,7 +4,7 @@ import { Note, Location as cLocation, Activity } from '@prisma/client'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
 
-import { Box, Container, Divider, Text, Heading, SimpleGrid, Stack, Button, useColorMode, Center, VStack, Flex } from '@chakra-ui/react'
+import { Box, Container, Divider, Text, Heading, SimpleGrid, Stack, Button, useColorMode, Center, VStack, Flex, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Accordion } from '@chakra-ui/react'
 import NoteGrid from '../components/dashboard/note-grid/NoteGrid'
 import GradeTable from '../components/dashboard/grade-table/GradeTable'
 import Card from '../components/generic/card/Card'
@@ -58,28 +58,40 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           <Text>🔥 54</Text>
           <Divider my={4} />
           <ActivityTracker locations={props.locations} />
-          <VStack spacing={2} mt={4}>
-            {/* TODO: add pagination */}
-            {props.activities.map(activity => { 
-              
-              const date = dateFormat(activity.date, 'dd/mm/yyyy')
+          <Accordion mt={4} allowToggle>
+            <AccordionItem border="none">
+              <h2>
+                <AccordionButton>
+                  <Box flex='1' textAlign='left'>
+                    <b>View activities</b>
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <VStack spacing={2}>
+                {/* TODO: add pagination */}
+                {props.activities.map(activity => { 
+                  
+                  const date = dateFormat(activity.date, 'dd/mm/yyyy')
 
-              return (
-                <Flex 
-                  key={activity.id} 
-                  p={2}
-                  w="100%"
-                  bgColor="whiteAlpha.100" 
-                  justifyContent="space-between" 
-                  alignItems="center" 
-                  borderRadius={4}
-                >
-                  <span>{activity.Location.name}</span>
-                  <span>{date}</span>
-                </Flex>
-              )
-            })}
-          </VStack>
+                  return (
+                    <Flex 
+                      key={activity.id} 
+                      w="100%"
+                      justifyContent="space-between" 
+                      alignItems="center" 
+                      borderRadius={4}
+                    >
+                      <span>{activity.Location.name}</span>
+                      <span>{date}</span>
+                    </Flex>
+                  )
+                })}
+              </VStack>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion> 
         </Card>
       </SimpleGrid>
       <Box mt={4}>
