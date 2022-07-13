@@ -11,7 +11,7 @@ type NoteGridProps = {
 const NoteGrid: React.FC<NoteGridProps> = ({ notes }) => {
   return (
     <VStack spacing={2} alignItems="start">
-      { notes.sort((a, b) => sortByDate(a.created_at, b.created_at)).map(note => <Note key={note.id} note={note} />) }
+      { notes.map(note => <Note key={note.id} note={note} />) }
     </VStack>
   )
 }
