@@ -14,7 +14,7 @@ export default async function handle(req, res) {
     select: { date: true }
   })
   const dates = activityDates.map(d => new Date(d.date))
-  const streak = getStreak(dates, '00:00:00')
+  const streak = getStreak(dates, '23:59:59')
 
   res.json(streak)
 }
