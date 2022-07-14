@@ -1,5 +1,4 @@
 import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Flex, VStack, Text, AccordionIcon } from '@chakra-ui/react'
-import { Activity } from '@prisma/client';
 import dateFormat from 'dateformat'
 import React from 'react'
 

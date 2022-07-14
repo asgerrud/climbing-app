@@ -4,7 +4,7 @@ import { Note, Location as cLocation } from '@prisma/client'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
 
-import { Box, Container, Divider, Text, Heading, SimpleGrid, Stack, Button, useColorMode, Center, VStack, Flex, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Accordion } from '@chakra-ui/react'
+import { Box, Container, Divider, Heading, SimpleGrid, Stack, Button, useColorMode, Center } from '@chakra-ui/react'
 import NoteGrid from '../components/dashboard/note-grid/NoteGrid'
 import GradeTable from '../components/dashboard/grade-table/GradeTable'
 import Card from '../components/generic/card/Card'
@@ -12,9 +12,8 @@ import NoteEditor from '../components/dashboard/note-editor/NoteEditor'
 import Loading from '../components/generic/loading/Loading'
 import ActivityTracker from '../components/dashboard/activity-tracker/ActivityTracker'
 import MissingAuthentication from '../components/generic/screens/MissingAuthentication'
-import dateFormat from 'dateformat'
 import SessionStats from '../components/dashboard/session-stats/SessionStats'
-import ActivityList from '../components/dashboard/activity-list/ActivityList';
+import ActivityList from '../components/dashboard/activity-list/ActivityList'
 
 type DashboardProps = {
   notes: Note[],

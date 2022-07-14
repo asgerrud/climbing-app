@@ -1,4 +1,4 @@
-import { Badge, Box, Divider, Flex, Heading, HStack, SimpleGrid, Stat, StatHelpText, StatLabel, StatNumber, Table, TableContainer, Tag, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react'
+import { Badge, SimpleGrid, Stat, StatLabel, StatNumber, Tag, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 
 type SessionStatsProps = {
