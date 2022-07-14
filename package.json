@@ -20,6 +20,7 @@
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "dateformat": "^5.0.3",
+    "datetime-streak": "^0.0.1",
     "framer-motion": "^6.3.3",
     "geodist": "^0.2.1",
     "leaflet": "^1.8.0",

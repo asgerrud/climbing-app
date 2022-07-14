@@ -1,6 +1,6 @@
 import React from 'react'
 import prisma from '../utils/prisma'
-import { Note, Location as cLocation, Activity } from '@prisma/client'
+import { Note, Location as cLocation } from '@prisma/client'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
 
@@ -13,6 +13,8 @@ import Loading from '../components/generic/loading/Loading'
 import ActivityTracker from '../components/dashboard/activity-tracker/ActivityTracker'
 import MissingAuthentication from '../components/generic/screens/MissingAuthentication'
 import dateFormat from 'dateformat'
+import SessionStats from '../components/dashboard/session-stats/SessionStats'
+import ActivityList from '../components/dashboard/activity-list/ActivityList';
 
 type DashboardProps = {
   notes: Note[],
@@ -38,6 +40,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     return <MissingAuthentication />
   }
 
+
   return (
     <Container maxW="120ch" py={4}>
       <Heading as="h1" size="lg" mb={3}>Dashboard</Heading>
@@ -55,46 +58,10 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
         </Stack>
         <Card>
           <Heading size="md" mb={4}>Progress</Heading>
-          <Text>🔥 54</Text>
-          <Divider my={4} />
+          <SessionStats userId={session.user.id} activities={props.activities}/>
+          <Divider my={4}/>
           <ActivityTracker locations={props.locations} />
-          <Accordion mt={4} allowToggle>
-            <AccordionItem border="none">
-              <h2>
-                <AccordionButton>
-                  <Box flex='1' textAlign='left'>
-                    <b>View activities</b>
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                <VStack spacing={2}>
-                {/* TODO: add pagination */}
-                {props.activities.map((activity, idx) => { 
-                  
-                  const date = dateFormat(activity.date, 'dd/mm/yyyy')
-
-                  return (
-                    <Flex 
-                      key={activity.id} 
-                      w="100%"
-                      justifyContent="space-between" 
-                      alignItems="center" 
-                      borderRadius={4}
-                    >
-                      <div>
-                        <Text as="span" color="whiteAlpha.300" mr={1}>{idx + 1}</Text>
-                        <span> {activity.Location.name}</span>
-                      </div>
-                      <span>{date}</span>
-                    </Flex>
-                  )
-                })}
-              </VStack>
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion> 
+          <ActivityList activities={props.activities} />
         </Card>
       </SimpleGrid>
       <Box mt={4}>
@@ -163,8 +130,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     props: { 
       notes: JSON.parse(JSON.stringify(notes)),
       locations: JSON.parse(JSON.stringify(locations)),
-      activities: JSON.parse(JSON.stringify(activities))
-    },
+      activities: JSON.parse(JSON.stringify(activities)),
+    }
   }
 }
 
