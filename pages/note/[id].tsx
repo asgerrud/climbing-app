@@ -41,7 +41,6 @@ const NotePage: React.FC<NotePageProps> = (props) => {
 
   const handleSave = () => {
     const updatedDate = new Date()
-    console.log(id, title, content, updatedDate)
     updateNote(id, title, content, updatedDate)
   }
 

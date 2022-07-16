@@ -13,7 +13,6 @@ type ProfilePageProps = {
 const ProfilePage: React.FC<ProfilePageProps> = (props) => {
 
   const { name, image } = props.user
-  console.log(props)
 
   const profile = {
     name: name,
