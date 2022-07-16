@@ -36,8 +36,8 @@ const Bio: React.FC<BioProps> = ({ profile }) => {
           <StatNumber>{height}cm</StatNumber>
         </Stat>
         <Stat>
-          <StatLabel>Weight</StatLabel>
-          <StatNumber>{armspan}kg</StatNumber>
+          <StatLabel>Armspan</StatLabel>
+          <StatNumber>{armspan}cm</StatNumber>
         </Stat>
         <Stat>
           <StatLabel>Ape index</StatLabel>
