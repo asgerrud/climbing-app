@@ -58,7 +58,7 @@ const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
 
   return (
     <>
-      <Button colorScheme="orange" onClick={onOpen}>Add activity</Button>
+      <Button colorScheme="orange" size="md" onClick={onOpen}>Add activity</Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

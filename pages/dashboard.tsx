@@ -45,18 +45,16 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       <Heading as="h1" size="lg" mb={3}>Dashboard</Heading>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
         <Stack spacing={4}>
-          <Card>
+          <Card title="Stats">
             <GradeTable />
           </Card>
-          <Card>
-            <Heading as="h2" size="md" mb={4}>Notes</Heading>
+          <Card title="Notes">
             <NoteEditor />
             <Divider my={4} />
             <NoteGrid notes={props.notes}/>
           </Card>
         </Stack>
-        <Card>
-          <Heading size="md" mb={4}>Activity</Heading>
+        <Card title="Activity" order={{base: -1, md: 0}}>
           <SessionStats userId={session.user.id} activities={props.activities}/>
           <Divider my={4}/>
           <ActivityTracker locations={props.locations} />

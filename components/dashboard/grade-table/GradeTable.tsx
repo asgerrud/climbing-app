@@ -4,7 +4,6 @@ import React from 'react'
 const GradeTable = () => {
   return (
     <>
-      <Heading as="h2" size="md" mb={4}>Stats</Heading>
       <TableContainer>
         <Table variant='simple'  size='sm'>
           <Thead>

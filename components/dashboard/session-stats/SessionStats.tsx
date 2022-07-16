@@ -1,4 +1,4 @@
-import { Badge, Heading, SimpleGrid, Stat, StatLabel, StatNumber, Tag, Text, VStack } from '@chakra-ui/react'
+import { SimpleGrid, Stat, StatLabel, StatNumber, Tag, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 
 type SessionStatsProps = {
@@ -36,6 +36,7 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
         try {
           const response = await fetch(url)
           const json = await response.json()
+
           const { currentWeeklyStreak, currentDailyStreak, longestDailyStreak, longestWeeklyStreak, sessionsThisWeek } = json
           setDailyStreak(currentDailyStreak)
           setWeeklyStreak(currentWeeklyStreak)
