@@ -1,4 +1,4 @@
-import { Badge, SimpleGrid, Stat, StatLabel, StatNumber, Tag, Text, VStack } from '@chakra-ui/react'
+import { Badge, Heading, SimpleGrid, Stat, StatLabel, StatNumber, Tag, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 
 type SessionStatsProps = {
@@ -16,6 +16,7 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
   
   const [dailyStreak, setDailyStreak] = useState(0)
   const [weeklyStreak, setWeeklyStreak] = useState(0)
+  const [sessionsThisWeek, setSessionsThisWeek] = useState(0)
   const [longestDailyStreak, setLongestDailyStreak] = useState(0)
   const [longestWeeklyStreak, setLongestWeeklyStreak] = useState(0)
 
@@ -35,9 +36,10 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
         try {
           const response = await fetch(url)
           const json = await response.json()
-          const { currentWeeklyStreak, currentDailyStreak, longestDailyStreak, longestWeeklyStreak } = json
+          const { currentWeeklyStreak, currentDailyStreak, longestDailyStreak, longestWeeklyStreak, sessionsThisWeek } = json
           setDailyStreak(currentDailyStreak)
           setWeeklyStreak(currentWeeklyStreak)
+          setSessionsThisWeek(sessionsThisWeek)
           setLongestDailyStreak(longestDailyStreak)
           setLongestWeeklyStreak(longestWeeklyStreak)
         } catch (error) {
@@ -49,25 +51,26 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
 
   return (
     <>
-      <SimpleGrid columns={3}>
+      <SimpleGrid columns={3} mb={6}>
         <Stat>
           <StatLabel textAlign="center">Weekly streak</StatLabel>
           <StatNumber  textAlign="center"color="red.300">{weeklyStreak} {weeklyStreak > 1 && '🔥'}</StatNumber>
         </Stat>
         <Stat>
-          <StatLabel textAlign="center">Daily streak</StatLabel>
-          <StatNumber textAlign="center" color="red.300">{dailyStreak} {dailyStreak > 1 && '🔥'}</StatNumber>
+          <StatLabel textAlign="center">Sessions this week</StatLabel>
+          <StatNumber textAlign="center" color="red.300">{sessionsThisWeek} {sessionsThisWeek > 1 && '🔥'}</StatNumber>
         </Stat>
         <Stat>
           <StatLabel textAlign="center">Total sessions</StatLabel>
           <StatNumber textAlign="center" color="red.300">{activities.length}</StatNumber>
         </Stat>
       </SimpleGrid>
-      <VStack my={4} alignItems="flex-start">
+      {/* <VStack alignItems="flex-start">
+        <Heading as="h3" size="md" mb={2}>Records</Heading>
         <Text>Daily <Badge>{longestDailyStreak}</Badge></Text>
         <Text>Weekly <Badge>{longestWeeklyStreak}</Badge></Text>
-        <Text>Favorite location: <Tag>{favoriteLocation}</Tag></Text>
-      </VStack>
+      </VStack> */}
+      <Text>Favorite location: <Tag>{favoriteLocation}</Tag></Text>
     </>
   )
 }

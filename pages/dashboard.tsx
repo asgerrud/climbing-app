@@ -56,7 +56,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           </Card>
         </Stack>
         <Card>
-          <Heading size="md" mb={4}>Progress</Heading>
+          <Heading size="md" mb={4}>Activity</Heading>
           <SessionStats userId={session.user.id} activities={props.activities}/>
           <Divider my={4}/>
           <ActivityTracker locations={props.locations} />
