@@ -24,7 +24,7 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
             <AccordionIcon />
           </AccordionButton>
         </h2>
-        <AccordionPanel pb={4}>
+        <AccordionPanel pb={4} maxH="360px" overflowY="scroll">
           <VStack spacing={2}>
           {activities.map((activity, idx) => { 
             const date = dateFormat(activity.date, 'dd/mm/yyyy')

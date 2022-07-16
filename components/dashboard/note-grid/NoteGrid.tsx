@@ -10,7 +10,7 @@ type NoteGridProps = {
 
 const NoteGrid: React.FC<NoteGridProps> = ({ notes }) => {
   return (
-    <VStack spacing={2} alignItems="start">
+    <VStack spacing={2} alignItems="start" maxH="360px" overflowY="scroll">
       { notes.map(note => <Note key={note.id} note={note} />) }
     </VStack>
   )
