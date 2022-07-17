@@ -1,4 +1,4 @@
-import { SimpleGrid, Stat, StatLabel, StatNumber, Tag, Text } from '@chakra-ui/react'
+import { Flex, Grid, GridItem, SimpleGrid, Stat, StatLabel, StatNumber, Tag, Text, Wrap } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 
 type SessionStatsProps = {
@@ -52,20 +52,26 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
 
   return (
     <>
-      <SimpleGrid columns={3} mb={6}>
-        <Stat>
-          <StatLabel textAlign="center">Weekly streak</StatLabel>
-          <StatNumber  textAlign="center"color="red.300">{weeklyStreak} {weeklyStreak > 1 && '🔥'}</StatNumber>
-        </Stat>
-        <Stat>
-          <StatLabel textAlign="center">Sessions this week</StatLabel>
-          <StatNumber textAlign="center" color="red.300">{sessionsThisWeek} {sessionsThisWeek > 1 && '🔥'}</StatNumber>
-        </Stat>
-        <Stat>
-          <StatLabel textAlign="center">Total sessions</StatLabel>
-          <StatNumber textAlign="center" color="red.300">{activities.length}</StatNumber>
-        </Stat>
-      </SimpleGrid>
+      <Grid templateColumns={{base: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)'}} mb={6}>
+        <GridItem colSpan={1}>
+          <Stat>
+            <StatLabel textAlign="center">Weekly streak</StatLabel>
+            <StatNumber  textAlign="center"color="red.300">{weeklyStreak} {weeklyStreak > 1 && '🔥'}</StatNumber>
+          </Stat>
+        </GridItem>
+        <GridItem colSpan={1}>
+          <Stat>
+            <StatLabel textAlign="center">Sessions this week</StatLabel>
+            <StatNumber textAlign="center" color="red.300">{sessionsThisWeek} {sessionsThisWeek > 1 && '🔥'}</StatNumber>
+          </Stat>
+        </GridItem>
+        <GridItem colSpan={{base: 2, md: 1}}>
+          <Stat>
+            <StatLabel textAlign="center">Total sessions</StatLabel>
+            <StatNumber textAlign="center" color="red.300">{activities.length}</StatNumber>
+          </Stat>
+        </GridItem>
+      </Grid>
       {/* <VStack alignItems="flex-start">
         <Heading as="h3" size="md" mb={2}>Records</Heading>
         <Text>Daily <Badge>{longestDailyStreak}</Badge></Text>
