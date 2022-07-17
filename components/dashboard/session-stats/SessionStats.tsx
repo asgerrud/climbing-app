@@ -30,7 +30,7 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
   const favoriteLocation = findMostFrequentLocation(activities.map(activity => activity.Location.name))
 
   useEffect(() => {
-      const url = `http://localhost:3000/api/profile/${userId}/streak`
+      const url = `/api/profile/${userId}/streak`
       
       const fetchData = async () => {
         try {

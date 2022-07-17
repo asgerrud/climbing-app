@@ -5257,6 +5257,11 @@ webidl-conversions@^7.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-7.0.0.tgz#256b4e1882be7debbf01d05f0aa2039778ea080a"
   integrity sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==
 
+weeknumber@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/weeknumber/-/weeknumber-1.2.1.tgz#f407e7a2eaef1e625610404d1dcbab845b891e85"
+  integrity sha512-F5AbhjKQhRDHweBnDuYRiJvS9/2f19/3/431+ZiZQb/jTgLKuAg8kwZzgS9/9a1SyA1KeJPEfQpf6dggaw7NBg==
+
 whatwg-encoding@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-encoding/-/whatwg-encoding-2.0.0.tgz#e7635f597fd87020858626805a2729fa7698ac53"

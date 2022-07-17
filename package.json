@@ -29,7 +29,8 @@
     "prisma": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-leaflet": "^4.0.0"
+    "react-leaflet": "^4.0.0",
+    "weeknumber": "^1.2.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
