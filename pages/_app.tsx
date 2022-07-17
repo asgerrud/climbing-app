@@ -19,6 +19,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps: { session, ...pageProps
         <Head>
           <title>🧗 Climbing app</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="apple-touch-icon" href="/icon.png"></link>
         </Head>
         <Box minH="100vh">
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
