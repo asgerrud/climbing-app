@@ -22,9 +22,9 @@ const MapPage: React.FunctionComponent<MapProps> = ({ locations }) => {
   ), [])
 
   return (
-    <Box>
+    <Box position="relative">
       <Map darkMode={colorMode === 'dark'} locations={locations} />
-      <Box position="absolute" right={4} bottom={4} zIndex={1}>
+      <Box position="absolute" right={4} top={4} zIndex={1}>
         <Link href="/location/add">
           <Button colorScheme="orange" borderRadius="100%" w={42} h={42} fontSize={20}>
             <AddIcon w={4} />
