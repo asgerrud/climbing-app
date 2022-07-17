@@ -127,6 +127,9 @@ const AddPage: React.FC<AddPageProps> = ({ locations }: AddPageProps) => {
 export const getStaticProps: GetStaticProps = async () => {
   const locations  = await prisma.location.findMany({
     include: {
+      type: {
+        select: { name: true }
+      },
       facilities: {
         select: {
           name: true,
