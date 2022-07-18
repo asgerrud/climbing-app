@@ -14,6 +14,7 @@ import ActivityTracker from '../components/dashboard/activity-tracker/ActivityTr
 import MissingAuthentication from '../components/generic/screens/MissingAuthentication'
 import SessionStats from '../components/dashboard/session-stats/SessionStats'
 import ActivityList from '../components/dashboard/activity-list/ActivityList'
+import CustomCalendar from '../components/CustomCalendar'
 
 type DashboardProps = {
   notes: Note[],
@@ -80,6 +81,9 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
         <Card title="Activity" order={{base: -1, md: 0}}>
           <SessionStats userId={session.user.id} activities={activities}/>
           <Divider my={4}/>
+          <Box mb={4}>
+            <CustomCalendar activities={activities} />
+          </Box>
           <ActivityTracker locations={props.locations} onActivityAdded={onActivityAdded}/>
           <ActivityList activities={activities} />
         </Card>
