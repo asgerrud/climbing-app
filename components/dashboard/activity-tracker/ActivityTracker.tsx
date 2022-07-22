@@ -18,7 +18,7 @@ const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations, onActivity
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [locationId, setLocationId] = useState('')
   const [date, setDate] = useState(today)
-  console.log(locationId)
+  
   const findNearestLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
