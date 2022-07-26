@@ -15,6 +15,48 @@ const daysBetweenDates = (fromDate, toDate) => {
   return Math.round((toDate.getTime() - fromDate.getTime()) / (1000 * 3600 * 24)) 
 }
 
+
+const getNextWeekNumber = (d) => {
+  const inSevenDays = new Date(d)
+  inSevenDays.setDate(d.getDate() + 7)
+  return weekNumber(inSevenDays)
+}
+
+const highestWeeklyStreak = (dates: Date[]) => {
+  
+  // Sort by oldest
+  dates.sort((a,b) => a.getTime() - b.getTime())
+
+  if (dates.length === 0) return 0
+  if (dates.length === 1) return 1
+
+  let highest: number = 0
+  let streak: number = 1
+  let currentDate: Date = dates[0]
+  
+  for (let date of dates) {
+    // date is in the same week  
+
+    const expectedNextWeekNumber = getNextWeekNumber(currentDate)
+
+
+    if (expectedNextWeekNumber === weekNumber(date)) {
+      currentDate = date; streak = streak + 1
+    }
+
+    // Streak broken
+    if ((expectedNextWeekNumber !== weekNumber(date) && weekNumber(currentDate) !== weekNumber(date))) {
+      streak = 0; currentDate = date
+    }
+
+    // New highest streak found
+    if (streak > highest) {
+      highest = streak
+    }
+  }
+  return highest
+}
+
 const useActivities = (userId: string) => {
 
   const [data, setData] = useState(null)
@@ -36,24 +78,25 @@ const useActivities = (userId: string) => {
           currentDailyStreak, 
           longestDailyStreak, 
           currentWeeklyStreak, 
-          longestWeeklyStreak, 
           activityDates
         } = json
 
         const activityDays = Object.keys(activityDates).map(d => new Date(d))
 
-        const today = new Date()
         const totalSessions = activityDays.length
-
+        
+        const today = new Date()
         const firstDay = activityDays[activityDays.length - 1]
         const latestDay = activityDays[0]
+
         const daysSinceFirstActivity = daysBetweenDates(firstDay, today)
         const daysSinceMostRecent  = daysBetweenDates(latestDay, today)
+
         const avgActivitiesPerWeek = totalSessions / daysSinceFirstActivity
         
         const currentWeekNumber = weekNumber(today)
         const sessionsThisWeek = activityDays.filter(date => weekNumber(date) == currentWeekNumber).length
-
+        
         const activityData = {
           streak: {
             daily: {
@@ -62,7 +105,7 @@ const useActivities = (userId: string) => {
             },
             weekly: {
               current: currentWeeklyStreak,
-              longest: longestWeeklyStreak
+              longest: highestWeeklyStreak(activityDays)
             }
           },
           sessions: {

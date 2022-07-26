@@ -1,5 +1,4 @@
 import { getStreak } from 'datetime-streak'
-import { weekNumber } from 'weeknumber';
 import prisma from '../../../../utils/prisma'
 
 export default async function handle(req, res) {
