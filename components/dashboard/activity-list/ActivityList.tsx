@@ -1,10 +1,15 @@
 import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Flex, VStack, Text, AccordionIcon } from '@chakra-ui/react'
-import dateFormat from 'dateformat'
+import Router from 'next/router'
 import React from 'react'
 import ActivityItem from './ActivityItem'
 
 type ActivityListProps = {
   activities: ActivityItem[]
+}
+
+async function deleteActivity(id: string): Promise<void> {
+  console.log("bam!")
+  // TODO: add event listener 'onActivityListChanged' with updated activitylist to update UI
 }
 
 const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
@@ -22,7 +27,7 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
         <AccordionPanel pb={4} maxH="360px" overflowY="scroll">
           <VStack spacing={2}>
             {activities.map((activity, idx) => 
-              <ActivityItem index={idx + 1} activity={activity} />
+              <ActivityItem index={idx + 1} activity={activity} onRemove={deleteActivity}/>
             )}
           </VStack>
         </AccordionPanel>
