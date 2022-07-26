@@ -16,6 +16,10 @@ type SessionStatsProps = {
 
 const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
 
+  const { data, error, loading } = useActivities(userId)
+  const favoriteLocation = findMostFrequentLocation(activities.map(activity => activity.Location.name))
+  const flameThreshold = 3
+
   function findMostFrequentLocation(arr){
       return arr.sort((a,b) =>
             arr.filter(v => v===a).length
@@ -23,9 +27,11 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
       ).pop()
   }
 
-  const favoriteLocation = findMostFrequentLocation(activities.map(activity => activity.Location.name))
-
-  const { data, error, loading } = useActivities(userId)
+  const printDaysAgo = (number) => {
+    if (number == 0) return 'today'
+    if (number == 1) return `${number} day ago`
+    return `${number} days ago`
+  }
 
   if (loading || data === null) {
     return <Loading />
@@ -33,11 +39,6 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
 
   const { streak, sessions } = data
 
-  const printDaysAgo = (number) => {
-    if (number == 0) return 'today'
-    if (number == 1) return `${number} day ago`
-    return `${number} days ago`
-  }
 
   return (
     <>
@@ -46,7 +47,8 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
           <ActivityStat 
             label="Weekly streak"
             value={streak.weekly.current}
-            flameThreshold={3}
+            subtext={`Longest: ${streak.weekly.longest}`} /* TODO: average per active week */
+            flameThreshold={flameThreshold}
           />
         </GridItem>
         <GridItem colSpan={1}>
@@ -54,7 +56,7 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
             label="Sessions this week"
             value={sessions.weekly.current}
             subtext={`Avg: ${sessions.weekly.avg.toFixed(2)} / week`} /* TODO: average per active week */
-            flameThreshold={3}
+            flameThreshold={flameThreshold}
           />
         </GridItem>
         <GridItem colSpan={{ base: 2, sm: 1 }}>
@@ -77,18 +79,11 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
             <Text>{sessions?.last} <small>({printDaysAgo(sessions.daysSinceMostRecent)})</small></Text>
           </Box>
         </Stack>
-        <Stack>
-          <Box>
-            <Text fontWeight="bold">Records</Text>
-            <Text>Days in a row: <Badge>{streak.daily.longest}</Badge></Text>
-            <Text>Weeks in a row: <Badge>{streak.weekly.longest}</Badge></Text>
-          </Box>
-        </Stack>
+        <Box>
+          <Text fontWeight="bold">Favorite location</Text>
+          <Text>{favoriteLocation}</Text>
+        </Box>
       </SimpleGrid>
-      <Box mt={4}>
-        <Text fontWeight="bold">Favorite location</Text>
-        <Text>{favoriteLocation}</Text>
-      </Box>
     </>
   )
 }
@@ -103,13 +98,13 @@ type ActivityStatProps = {
 const ActivityStat: React.FC<ActivityStatProps> = ({ label, value, subtext, flameThreshold }) => {
   return (
     <Stat>
-      <StatLabel textAlign="center">{label}</StatLabel>
+      <StatLabel>{label}</StatLabel>
       {value != null
-        ? <StatNumber textAlign="center"color="red.300">{value} {flameThreshold && value >= flameThreshold && '🔥'} </StatNumber>
+        ? <StatNumber color="red.300">{value} {flameThreshold && value >= flameThreshold && '🔥'} </StatNumber>
         : <Center py={4}><Spinner /></Center>
       }
       {subtext && (
-        <StatHelpText textAlign="center">{subtext}</StatHelpText>
+        <StatHelpText>{subtext}</StatHelpText>
       )}
     </Stat>
   )
