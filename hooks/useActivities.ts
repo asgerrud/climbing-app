@@ -92,7 +92,8 @@ const useActivities = (userId: string) => {
         const daysSinceFirstActivity = daysBetweenDates(firstDay, today)
         const daysSinceMostRecent  = daysBetweenDates(latestDay, today)
 
-        const avgActivitiesPerWeek = totalSessions / daysSinceFirstActivity
+        const weeksSinceFirstDay = daysSinceFirstActivity / 7
+        const avgActivitiesPerWeek = totalSessions / weeksSinceFirstDay
         
         const currentWeekNumber = weekNumber(today)
         const sessionsThisWeek = activityDays.filter(date => weekNumber(date) == currentWeekNumber).length
