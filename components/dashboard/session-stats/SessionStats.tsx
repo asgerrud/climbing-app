@@ -46,7 +46,6 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
           <ActivityStat 
             label="Weekly streak"
             value={streak.weekly.current}
-            subtext={`Longest: ${streak.weekly.longest}`}
             flameThreshold={3}
           />
         </GridItem>
@@ -54,7 +53,7 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
           <ActivityStat 
             label="Sessions this week"
             value={sessions.weekly.current}
-            subtext={`Average: ${sessions.weekly.avg.toFixed(2)}`} /* TODO: average per active week */
+            subtext={`Avg: ${sessions.weekly.avg.toFixed(2)} / week`} /* TODO: average per active week */
             flameThreshold={3}
           />
         </GridItem>
@@ -105,7 +104,7 @@ const ActivityStat: React.FC<ActivityStatProps> = ({ label, value, subtext, flam
   return (
     <Stat>
       <StatLabel textAlign="center">{label}</StatLabel>
-      {value
+      {value != null
         ? <StatNumber textAlign="center"color="red.300">{value} {flameThreshold && value >= flameThreshold && '🔥'} </StatNumber>
         : <Center py={4}><Spinner /></Center>
       }
