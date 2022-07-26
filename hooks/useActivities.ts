@@ -2,7 +2,18 @@
 import { useState, useEffect } from 'react'
 import { weekNumber } from 'weeknumber';
 
-const daysBetweenDates = (fromDate, toDate) => Math.round((toDate.getTime() - fromDate.getTime()) / (1000 * 3600 * 24))
+const resetDateTime = (d: Date) => {
+  d.setHours(0)
+  d.setMinutes(0)
+  d.setSeconds(0)
+  d.setMilliseconds(0)
+}
+
+const daysBetweenDates = (fromDate, toDate) => { 
+  resetDateTime(fromDate)
+  resetDateTime(toDate)
+  return Math.round((toDate.getTime() - fromDate.getTime()) / (1000 * 3600 * 24)) 
+}
 
 const useActivities = (userId: string) => {
 
