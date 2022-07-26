@@ -1,5 +1,7 @@
-import { Flex, Grid, GridItem, SimpleGrid, Stat, StatLabel, StatNumber, Tag, Text, Wrap } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import { Badge, Box, Center, Grid, GridItem, SimpleGrid, Spinner, Stack, Stat, StatHelpText, StatLabel, StatNumber, Tag, Text, VStack } from '@chakra-ui/react'
+import React from 'react'
+import useActivities from '../../../hooks/useActivities'
+import Loading from '../../generic/loading/Loading';
 
 type SessionStatsProps = {
   userId: string,
@@ -13,12 +15,10 @@ type SessionStatsProps = {
 }
 
 const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
-  
-  const [dailyStreak, setDailyStreak] = useState(0)
-  const [weeklyStreak, setWeeklyStreak] = useState(0)
-  const [sessionsThisWeek, setSessionsThisWeek] = useState(0)
-  const [longestDailyStreak, setLongestDailyStreak] = useState(0)
-  const [longestWeeklyStreak, setLongestWeeklyStreak] = useState(0)
+
+  const { data, error, loading } = useActivities(userId)
+  const favoriteLocation = findMostFrequentLocation(activities.map(activity => activity.Location.name))
+  const flameThreshold = 3
 
   function findMostFrequentLocation(arr){
       return arr.sort((a,b) =>
@@ -27,58 +27,86 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
       ).pop()
   }
 
-  const favoriteLocation = findMostFrequentLocation(activities.map(activity => activity.Location.name))
+  const printDaysAgo = (number) => {
+    if (number == 0) return 'today'
+    if (number == 1) return `${number} day ago`
+    return `${number} days ago`
+  }
 
-  useEffect(() => {
-      const url = `/api/profile/${userId}/streak`
-      
-      const fetchData = async () => {
-        try {
-          const response = await fetch(url)
-          const json = await response.json()
+  if (loading || data === null) {
+    return <Loading />
+  }
 
-          const { currentWeeklyStreak, currentDailyStreak, longestDailyStreak, longestWeeklyStreak, sessionsThisWeek } = json
-          setDailyStreak(currentDailyStreak)
-          setWeeklyStreak(currentWeeklyStreak)
-          setSessionsThisWeek(sessionsThisWeek)
-          setLongestDailyStreak(longestDailyStreak)
-          setLongestWeeklyStreak(longestWeeklyStreak)
-        } catch (error) {
-          console.log('error', error)
-        }
-      }
-      fetchData()
-  }, [])
+  const { streak, sessions } = data
+
 
   return (
     <>
-      <Grid templateColumns={{base: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)'}} mb={6}>
+      <Grid templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)' }} mb={6}>
         <GridItem colSpan={1}>
-          <Stat>
-            <StatLabel textAlign="center">Weekly streak</StatLabel>
-            <StatNumber  textAlign="center"color="red.300">{weeklyStreak} {weeklyStreak > 1 && '🔥'}</StatNumber>
-          </Stat>
+          <ActivityStat 
+            label="Weekly streak"
+            value={streak.weekly.current}
+            subtext={`Longest: ${streak.weekly.longest}`} /* TODO: average per active week */
+            flameThreshold={flameThreshold}
+          />
         </GridItem>
         <GridItem colSpan={1}>
-          <Stat>
-            <StatLabel textAlign="center">Sessions this week</StatLabel>
-            <StatNumber textAlign="center" color="red.300">{sessionsThisWeek} {sessionsThisWeek > 1 && '🔥'}</StatNumber>
-          </Stat>
+          <ActivityStat 
+            label="Sessions this week"
+            value={sessions.weekly.current}
+            subtext={`Avg: ${sessions.weekly.avg.toFixed(2)} / week`} /* TODO: average per active week */
+            flameThreshold={flameThreshold}
+          />
         </GridItem>
-        <GridItem colSpan={{base: 2, md: 1}}>
-          <Stat>
-            <StatLabel textAlign="center">Total sessions</StatLabel>
-            <StatNumber textAlign="center" color="red.300">{activities.length}</StatNumber>
-          </Stat>
+        <GridItem colSpan={{ base: 2, sm: 1 }}>
+          <ActivityStat 
+            label="Total sessions"
+            value={sessions.total}
+          />
         </GridItem>
       </Grid>
-      {/* <VStack alignItems="flex-start">
-        <Heading as="h3" size="md" mb={2}>Records</Heading>
-        <Text>Daily <Badge>{longestDailyStreak}</Badge></Text>
-        <Text>Weekly <Badge>{longestWeeklyStreak}</Badge></Text>
-      </VStack> */}
-      <Text>Favorite location: <Tag>{favoriteLocation}</Tag></Text>
+      <SimpleGrid columns={2} spacing={4}>
+        <Stack>
+          <Box>
+            <Text>
+              <Text fontWeight="bold">First session</Text>
+              {sessions?.first} <small>({printDaysAgo(sessions.daysSinceFirst)})</small>
+            </Text>
+          </Box>
+          <Box>
+            <Text fontWeight="bold">Last session</Text>
+            <Text>{sessions?.last} <small>({printDaysAgo(sessions.daysSinceMostRecent)})</small></Text>
+          </Box>
+        </Stack>
+        <Box>
+          <Text fontWeight="bold">Favorite location</Text>
+          <Text>{favoriteLocation}</Text>
+        </Box>
+      </SimpleGrid>
     </>
+  )
+}
+
+type ActivityStatProps = {
+  label: string,
+  value: number,
+  subtext?: string,
+  flameThreshold?: number,
+}
+
+const ActivityStat: React.FC<ActivityStatProps> = ({ label, value, subtext, flameThreshold }) => {
+  return (
+    <Stat>
+      <StatLabel>{label}</StatLabel>
+      {value != null
+        ? <StatNumber color="red.300">{value} {flameThreshold && value >= flameThreshold && '🔥'} </StatNumber>
+        : <Center py={4}><Spinner /></Center>
+      }
+      {subtext && (
+        <StatHelpText>{subtext}</StatHelpText>
+      )}
+    </Stat>
   )
 }
 

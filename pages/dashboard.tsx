@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import prisma from '../utils/prisma'
 import { Note, Location as cLocation } from '@prisma/client'
 import { getSession, useSession } from 'next-auth/react'
@@ -14,6 +14,7 @@ import ActivityTracker from '../components/dashboard/activity-tracker/ActivityTr
 import MissingAuthentication from '../components/generic/screens/MissingAuthentication'
 import SessionStats from '../components/dashboard/session-stats/SessionStats'
 import ActivityList from '../components/dashboard/activity-list/ActivityList'
+import CustomCalendar from '../components/CustomCalendar'
 
 type DashboardProps = {
   notes: Note[],
@@ -31,6 +32,29 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
 
   const { colorMode, toggleColorMode } = useColorMode()
   const { data: session, status } = useSession()
+  const [activities, setActivities] = useState<DashboardProps['activities']>(props.activities)
+
+  const findLocationNameById = (id: string): string => {
+    for (const location of props.locations) {
+      if (location.id === id) {
+        return location.name
+      }
+    }
+    return ''
+  }
+
+  const onActivityAdded = (locationId: string, date: Date) => {
+    const newActivity = {
+      id: locationId,
+      date: date,
+      Location: {
+        name: findLocationNameById(locationId)
+      }
+    }
+    activities.push(newActivity)
+    activities.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    setActivities([...activities])
+  }
 
   if (status === 'loading') {
     return <Loading />
@@ -55,10 +79,13 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           </Card>
         </Stack>
         <Card title="Activity" order={{base: -1, md: 0}}>
-          <SessionStats userId={session.user.id} activities={props.activities}/>
+          <SessionStats userId={session.user.id} activities={activities}/>
           <Divider my={4}/>
-          <ActivityTracker locations={props.locations} />
-          <ActivityList activities={props.activities} />
+          <Box mb={4}>
+            <CustomCalendar activities={activities} />
+          </Box>
+          <ActivityTracker locations={props.locations} onActivityAdded={onActivityAdded}/>
+          <ActivityList activities={activities} />
         </Card>
       </SimpleGrid>
       <Box mt={4}>

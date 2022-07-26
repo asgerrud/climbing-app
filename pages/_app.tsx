@@ -3,6 +3,7 @@ import { SessionProvider } from 'next-auth/react'
 import { ChakraProvider, Box, extendTheme, type ThemeConfig, ColorModeScript } from '@chakra-ui/react'
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
+import '../styles/app.css'
 
 const config: ThemeConfig = {
   initialColorMode: 'dark',

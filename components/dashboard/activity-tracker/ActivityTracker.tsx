@@ -8,16 +8,17 @@ import { getDistanceBetween } from '../../../utils/geo'
 
 type ActivityTrackerProps = {
   locations: cLocation[]
+  onActivityAdded?: (locationId: String, date: Date) => void
 }
 
-const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
+const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations, onActivityAdded }) => {
 
   const today = dateFormat(new Date(), 'yyyy-mm-dd')
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [locationId, setLocationId] = useState('')
   const [date, setDate] = useState(today)
-
+  
   const findNearestLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -46,6 +47,7 @@ const ActivityTracker: React.FC<ActivityTrackerProps> = ({ locations }) => {
     .then((response) => {
       if (response.ok) {
         onClose()
+        onActivityAdded(locationId, new Date(date))
         return response.json()
       }
       throw new Error(response.statusText)
