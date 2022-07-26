@@ -27,7 +27,7 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
         <AccordionPanel pb={4} maxH="360px" overflowY="scroll">
           <VStack spacing={2}>
             {activities.map((activity, idx) => 
-              <ActivityItem index={idx + 1} activity={activity} onRemove={deleteActivity}/>
+              <ActivityItem key={idx} index={idx + 1} activity={activity} onRemove={deleteActivity}/>
             )}
           </VStack>
         </AccordionPanel>
