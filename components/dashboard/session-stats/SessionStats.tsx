@@ -75,7 +75,7 @@ const SessionStats: React.FC<SessionStatsProps> = ({ userId, activities }) => {
           </Box>
           <Box>
             <Text fontWeight="bold">Last session</Text>
-            <Text>{sessions?.last} <small>{printDaysAgo(sessions.daysSinceMostRecent)})</small></Text>
+            <Text>{sessions?.last} <small>({printDaysAgo(sessions.daysSinceMostRecent)})</small></Text>
           </Box>
         </Stack>
         <Stack>

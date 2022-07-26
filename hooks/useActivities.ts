@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { weekNumber } from 'weeknumber';
 
-const daysBetweenDates = (fromDate, toDate) => Math.ceil((toDate.getTime() - fromDate.getTime()) / (1000 * 3600 * 24))
+const daysBetweenDates = (fromDate, toDate) => Math.round((toDate.getTime() - fromDate.getTime()) / (1000 * 3600 * 24))
 
 const useActivities = (userId: string) => {
 
@@ -37,7 +37,7 @@ const useActivities = (userId: string) => {
         const firstDay = activityDays[activityDays.length - 1]
         const latestDay = activityDays[0]
         const daysSinceFirstActivity = daysBetweenDates(firstDay, today)
-        const daysSinceMostRecent  = daysBetweenDates(today, latestDay)
+        const daysSinceMostRecent  = daysBetweenDates(latestDay, today)
         const avgActivitiesPerWeek = totalSessions / daysSinceFirstActivity
         
         const currentWeekNumber = weekNumber(today)
