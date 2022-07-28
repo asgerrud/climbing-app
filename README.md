@@ -1,5 +1,7 @@
 [Live demo](https://climbing-app-asgerrud.vercel.app/)
 
+Feel free to open an issue if you have any feature requests or bug reports
+
 ---
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
