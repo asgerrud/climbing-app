@@ -81,9 +81,9 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
         <Card title="Activity" order={{base: -1, md: 0}}>
           <SessionStats userId={session.user.id} activities={activities}/>
           <Divider my={4}/>
-          <Box mb={4}>
+          <Center mb={4}>
             <CustomCalendar activities={activities} />
-          </Box>
+          </Center>
           <ActivityTracker locations={props.locations} onActivityAdded={onActivityAdded}/>
           <ActivityList activities={activities} />
         </Card>
